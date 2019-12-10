@@ -20,22 +20,24 @@ CREATE TABLE IF NOT EXISTS UserData (
     CONSTRAINT FK_UserData_Users FOREIGN KEY(username) REFERENCES Users (username)
 );
 
-CREATE TABLE IF NOT EXISTS Courses (
+CREATE TABLE IF NOT EXISTS Course (
     id int identity NOT NULL,
     name nvarchar(256) NOT NULL,
-    userDataID int NOT NULL,
+    userDataId int NOT NULL,
     duration int NOT NULL,
     plane nvarchar(256) NOT NULL,
     CONSTRAINT PK_Courses PRIMARY KEY(id),
-    CONSTRAINT FK_Courses_UserData FOREIGN KEY(userDataID)  REFERENCES UserData(id)
+    CONSTRAINT FK_Courses_UserData FOREIGN KEY(userDataId)  REFERENCES UserData(id)
 );
 
-CREATE TABLE IF NOT EXISTS UserCourses(
-    courseID int NULL,
-    userDataID int NULL,
+CREATE TABLE IF NOT EXISTS UserCourse (
+    id int identity NOT NULL,
+    courseId int NULL,
+    userDataId int NULL,
     dateStarted date NULL,
     numberOfAttendances int NULL,
-    CONSTRAINT FK_UserCourses_Courses FOREIGN KEY(courseID) REFERENCES Courses (id),
-    CONSTRAINT FK_UserCourses_UserData FOREIGN KEY(userDataID) REFERENCES UserData (id)
+    CONSTRAINT PK_UserCourses PRIMARY KEY(id),
+    CONSTRAINT FK_UserCourses_Courses FOREIGN KEY(courseId) REFERENCES Course (id),
+    CONSTRAINT FK_UserCourses_UserData FOREIGN KEY(userDataId) REFERENCES UserData (id)
 );
 

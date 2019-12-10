@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: head"></head>
+<header th:replace="fragments :: header"></header>
 <body>
-
+<div class="row">
+    <div class="card-deck">
+        <div class="card" th:each="course : ${courses}">
+            <h5 class="card-header" th:text="${course.getName()}"></h5>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${course.getPlane()}"></h5>
+                <p class="card-text"><b>Instructor CodeName:</b> <span th:text="${course.getInstructor().getUsername()}"></span></p>
+                <p class="card-text"><b>Instructor Name:</b> <span th:text="${course.getInstructor().getFirstName()}"></span>&nbsp;<span th:text="${course.getInstructor().getLastName()}"></span></p>
+                <p class="card-text"><b>Duration in days:</b> <span th:text="${course.getDuration()}"></span></p>
+                <a href="#" class="btn btn-primary" sec:authorize="hasRole('ROLE_USER')" th:value="${course.getId()}">Attend Course</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
