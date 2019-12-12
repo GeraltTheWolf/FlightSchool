@@ -43,7 +43,7 @@ insert into UserData ( firstName, lastName, username,isInstructor)
 insert into Course (name, userDataId, duration, plane)
     values ('Intro Course', 1, 2, 'F18');
 insert into Course (name, userDataId, duration, plane)
-    values ('Special Top Gun Course', 2, 7, 'F16');
+    values ('Special Course', 2, 7, 'F16');
 insert into Course (name, userDataId, duration, plane)
     values ('Basic Top Gun', 1, 3, 'F14');
 insert into Course (name, userDataId, duration, plane)

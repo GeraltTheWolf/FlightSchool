@@ -7,15 +7,15 @@
 
     <nav th:replace="fragments :: navigation"></nav>
 
-    <main class="page pricing-table-page">
-        <section class="clean-block clean-pricing dark">
+    <main class="page">
+        <section class="clean-block">
             <div class="container">
                 <div class="block-heading">
                     <h2 class="text-info">Courses</h2>
                     <p>Active courses on Top Gun Academy</p>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-md-5 col-lg-4" th:each="course :${courses}" >
+                    <div class="col-md-5 col-lg-4 mb-5" th:each="course :${courses}" >
                         <div class="clean-pricing-item">
                             <div class="heading">
                                 <h3 th:text="${course.getName()}"></h3>
@@ -28,41 +28,8 @@
                             <div class="price"></div><button class="btn btn-primary btn-block" type="button">Apply Now</button></div>
                     </div>
                 </div>
-
             </div>
         </section>
-
-        <section sec:authorize="hasRole('ROLE_INSTRUCTOR')" class="clean-block clean-form dark">
-            <div class="container">
-                <div class="block-heading" style="padding: 30px 0px 0px;">
-                    <h2 class="text-info">Create new course</h2>
-                    <p>Only instructors can create new courses, so only instructors can see this....</p>
-                </div>
-                <form method="POST" th:object="${newCourse}">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input class="form-control" type="text"  id="name" th:field="*{name}">
-                        <span class="validation-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Duration in days</label>
-                        <input class="form-control" type="number" step="1" min="1" max="10" id="duration" th:field="*{duration}">
-                        <span class="validation-error" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Aircraft</label>
-                        <select class="form-control" type="number" step="1" min="1" max="10" id="plane" th:field="*{plane}">
-                            <option value="F14" >F 14 Tomcat</option>
-                            <option value="F16" >F 16</option>
-                            <option value="F18" >F/A 18 Hornet</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Send</button></div>
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                </form>
-            </div>
-        </section>
-
     </main>
 
     <footer th:replace="fragments :: footer"></footer>

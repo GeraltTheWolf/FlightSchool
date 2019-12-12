@@ -29,7 +29,7 @@ public class AboutController {
 
     @GetMapping
     public String getCourses(Model model) {
-        List<UserData> s = StreamSupport.stream(repository.getUserData().spliterator(),false).filter(userData -> userData.isInstructor()).collect(Collectors.toList());
+        List<UserData> s = repository.getUserData().stream().filter(userData -> userData.isInstructor()).collect(Collectors.toList());
         model.addAttribute("instructors", s);
 
         return "about";
