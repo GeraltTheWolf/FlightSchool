@@ -14,4 +14,5 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String username;
+    private boolean isInstructor;
 }

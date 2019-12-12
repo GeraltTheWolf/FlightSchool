@@ -31,15 +31,15 @@ public class TopGunRepository {
 
     //region UserData
     public Iterable<UserData> getUserData() {
-        return jdbc.query("select id, firstName, lastName, username from UserData", this::mapRowToUserData);
+        return jdbc.query("select id, firstName, lastName, username, isInstructor from UserData", this::mapRowToUserData);
     }
 
     public UserData getUserDataByUserName(String username) {
-        return jdbc.queryForObject("select id, firstName, lastName, username from UserData where username = ?", this::mapRowToUserData, username);
+        return jdbc.queryForObject("select id, firstName, lastName, username, isInstructor from UserData where username = ?", this::mapRowToUserData, username);
     }
 
     public UserData getUserDataById(int id) {
-        return jdbc.queryForObject("select id, firstName, lastName, username from UserData where id = ?", this::mapRowToUserData, id);
+        return jdbc.queryForObject("select id, firstName, lastName, username, isInstructor from UserData where id = ?", this::mapRowToUserData, id);
     }
 
     private UserData mapRowToUserData(ResultSet rs, int rowNum) throws SQLException {
@@ -48,6 +48,7 @@ public class TopGunRepository {
         userData.setFirstName(rs.getString("firstName"));
         userData.setLastName(rs.getString("lastName"));
         userData.setUsername(rs.getString("username"));
+        userData.setInstructor(rs.getBoolean("isInstructor"));
         return userData;
     }
     //endregion

@@ -30,14 +30,14 @@ insert into Authorities (username, authority)
 	values ('Merlin', 'ROLE_USER');
 
 -- Fill User Data
-insert into UserData ( firstName, lastName, username)
-    values('Pete','Mitchell','Maverick');
-insert into UserData ( firstName, lastName, username)
-    values('Nick','Bradshaw','Goose');
-insert into UserData ( firstName, lastName, username)
-    values('Henry','Ruth','Wolfman');
-insert into UserData ( firstName, lastName, username)
-    values('Sam','Wells','Merlin');
+insert into UserData ( firstName, lastName, username,isInstructor)
+    values('Pete','Mitchell','Maverick',1);
+insert into UserData ( firstName, lastName, username,isInstructor)
+    values('Nick','Bradshaw','Goose',1);
+insert into UserData ( firstName, lastName, username,isInstructor)
+    values('Henry','Ruth','Wolfman',0);
+insert into UserData ( firstName, lastName, username,isInstructor)
+    values('Sam','Wells','Merlin',0);
 
 -- Fill Courses
 insert into Course (name, userDataId, duration, plane)
@@ -56,6 +56,7 @@ insert into UserCourse (courseId, userDataId, dateStarted, numberOfAttendances)
     values (4, 3, '2019-12-15',3);
 insert into UserCourse (courseId, userDataId, dateStarted, numberOfAttendances)
     values (2, 4, '2019-10-21',1);
+
 
 
 
