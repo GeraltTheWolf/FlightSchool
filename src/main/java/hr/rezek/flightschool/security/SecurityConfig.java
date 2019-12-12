@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
 
-    public SecurityConfig(DataSource dataSource){
+    public SecurityConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -37,23 +37,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/home/**").permitAll()
-                .antMatchers("/course/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/login").anonymous()
-                .anyRequest().authenticated()
+                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/about").permitAll()
+                    .antMatchers("/h2-console/**").permitAll()
+                    .antMatchers("/login").anonymous()
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/", true)
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout")
+                    .logoutSuccessUrl("/login?logout")
                 .and()
                 // ignore CSRF protection and allow IFRAME for h2 console
-                .csrf().ignoringAntMatchers("/h2-console/**")
-                .and()
+                    .csrf().ignoringAntMatchers("/h2-console/**")
+                    .and()
                 .headers().frameOptions().sameOrigin();
     }
 }
