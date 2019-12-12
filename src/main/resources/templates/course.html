@@ -25,7 +25,7 @@
                                 <h4><span class="feature">Instructor:&nbsp;</span><span th:text="${course.getInstructor().getUsername()}"></span></h4>
                                 <h4><span class="feature">Plane:&nbsp;</span><span th:text="${course.getPlane()}"></span></h4>
                             </div>
-                            <div class="price"></div><button class="btn btn-primary btn-block" type="button">Apply Now</button></div>
+                            <div class="price"></div><a class="btn btn-primary btn-block" th:href="@{${'/course/'+course.getId() +'/enroll'}}" role="button">Enroll Course</a></div>
                     </div>
                 </div>
             </div>

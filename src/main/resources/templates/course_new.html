@@ -14,16 +14,19 @@
                 <p>Only instructors can create new courses, so only instructors can see this....</p>
             </div>
             <form method="POST" th:object="${newCourse}" th:action="@{/course}">
+
                 <div class="form-group">
                     <label>Name</label>
                     <input class="form-control" type="text"  id="name" th:field="*{name}">
                     <span class="validation-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                 </div>
+
                 <div class="form-group">
                     <label>Duration in days</label>
-                    <input class="form-control" type="number" step="1" id="duration" th:field="*{duration}">
+                    <input class="form-control" type="number" step="1" id="duration" th:field="*{duration}" value="2">
                     <span class="validation-error" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></span>
                 </div>
+
                 <div class="form-group">
                     <label>Aircraft</label>
                     <select class="form-control"  id="plane" th:field="*{plane}">
@@ -32,6 +35,7 @@
                         <option value="F18" >F/A 18 Hornet</option>
                     </select>
                 </div>
+
                 <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Send</button></div>
                 <input type="hidden" name="_csrf" th:value="${_csrf.token}">
             </form>

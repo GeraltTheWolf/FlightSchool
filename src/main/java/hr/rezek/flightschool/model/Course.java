@@ -1,14 +1,12 @@
 package hr.rezek.flightschool.model;
 
+import javax.validation.constraints.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -18,6 +16,7 @@ public class Course {
     private int id;
 
     @NotEmpty(message = "Name is empty")
+    @Size(min = 3, max = 25, message = "Name has to be between 3 and 25 characters")
     private String name;
     private String plane;
 

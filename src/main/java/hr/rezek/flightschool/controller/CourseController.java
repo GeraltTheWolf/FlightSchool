@@ -11,14 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/course")
@@ -32,6 +31,11 @@ public class CourseController {
         this.repository = topGunRepository;
     }
 
+    private boolean isUserInRole(Authentication authentication, String role) {
+        var roles = authentication.getAuthorities().toString();
+        return roles.contains(role);
+    }
+
     @GetMapping
     public String getCourses(Model model) {
         model.addAttribute("newCourse", new Course());
@@ -42,8 +46,7 @@ public class CourseController {
     @GetMapping
     @RequestMapping("/new")
     public String getCourseNew(Model model, Authentication authentication) {
-        var roles = authentication.getAuthorities().toString();
-        if (roles.contains("ROLE_INSTRUCTOR")) {
+        if (isUserInRole(authentication, "ROLE_INSTRUCTOR")) {
             model.addAttribute("newCourse", new Course());
             return "course_new";
         } else {
@@ -82,17 +85,37 @@ public class CourseController {
     }
 
     @PostMapping
-    public String createNewExercise(@Valid Course course, Errors errors, Model model, Principal principal) {
-        if (errors.hasErrors()) {
+    public String createNewCourse(@ModelAttribute("newCourse") @Valid Course course, BindingResult result, Principal principal) {
+        if (result.hasErrors()) {
             log.info("There were errors in the submitted form");
             return "course_new";
         }
-        
+
         UserData instructor = repository.getUserDataByUserName(principal.getName());
         course.setInstructor(instructor);
         repository.saveCourse(course);
 
         return "redirect:/course";
+    }
+
+    @GetMapping
+    @RequestMapping("/{courseId}/enroll")
+    public String enrollCourse(@PathVariable("courseId") int courseId, Authentication authentication) {
+        if (isUserInRole(authentication,"ROLE_INSTRUCTOR")) {
+            return "home";
+        }
+        UserData userData = repository.getUserDataByUserName(authentication.getName());
+        Course course = repository.getCourseById(courseId);
+
+        UserCourse userCourse = new UserCourse();
+        userCourse.setUserData(userData);
+        userCourse.setCourse(course);
+        userCourse.setNumberOfAttendances(0);
+        userCourse.setDateStarted(LocalDate.now());
+
+        repository.saveUserCourse(userCourse);
+
+        return "redirect:/course/user";
     }
 
 }
