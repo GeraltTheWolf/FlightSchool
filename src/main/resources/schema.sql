@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS UserData (
     firstName nvarchar(256) NOT NULL,
     lastName nvarchar(256) NOT NULL,
     username nvarchar(256) NULL,
+    biography nvarchar(2048) NULL,
     isInstructor boolean NOT NULL default false,
     CONSTRAINT PK_UserData PRIMARY KEY (id),
     CONSTRAINT FK_UserData_Users FOREIGN KEY(username) REFERENCES Users (username)

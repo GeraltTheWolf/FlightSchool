@@ -30,10 +30,10 @@ insert into Authorities (username, authority)
 	values ('Merlin', 'ROLE_USER');
 
 -- Fill User Data
-insert into UserData ( firstName, lastName, username,isInstructor)
-    values('Pete','Mitchell','Maverick',1);
-insert into UserData ( firstName, lastName, username,isInstructor)
-    values('Nick','Bradshaw','Goose',1);
+insert into UserData ( firstName, lastName, username,isInstructor,biography)
+    values('Pete','Mitchell','Maverick',1, 'Lieutenant Pete "Maverick" Mitchell is a US Naval Aviator and the protagonist of Top Gun. He is a troubled character and its hinted that the cause is due to his fathers death in the Vietnam War. We are led to believe that this incident shaped his life, flying style and led to his call sign.');
+insert into UserData ( firstName, lastName, username,isInstructor,biography)
+    values('Nick','Bradshaw','Goose',1,'Lieutenant (Junior Grade) Nick "Goose" Bradshaw was a Naval Flight Officer and Mavericks R.I.O., or Radar Intercept Officer. While clearly able to enjoy himself and have a good time, Goose was clearly more level headed than his partner Maverick, which is shown through his family and slightly more serious personality. He is a skilled R.I.O. and married to Carole, a fiery young woman with whom he has a son, Bradley.');
 insert into UserData ( firstName, lastName, username,isInstructor)
     values('Henry','Ruth','Wolfman',0);
 insert into UserData ( firstName, lastName, username,isInstructor)
