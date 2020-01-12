@@ -7,6 +7,7 @@
     <meta name="author" content="Geralt The Wolf">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" th:href="@{/fonts/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/fonts/simple-line-icons.min.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.min.css}">
@@ -24,14 +25,33 @@
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link active" href="/">Home</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/about">About US</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/course">Courses</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Login</a></li>
-                <li class="nav-item" role="presentation"></li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/about">About US</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/course">Courses</a>
+                </li>
+                <li class="nav-item" role="presentation" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item dropdown" role="presentation" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" sec:authentication="name"></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" th:href="@{/course/new}" sec:authorize="hasRole('ROLE_INSTRUCTOR')">Create Course</a>
+                        <a class="dropdown-item" th:href="@{/course/instructor}" sec:authorize="hasRole('ROLE_INSTRUCTOR')">My Courses</a>
+                        <a class="dropdown-item" th:href="@{/course/user}" sec:authorize="hasRole('ROLE_USER')">My Courses</a>
+                        <form method="POST" th:action="@{/logout}">
+                            <input type="submit" value="Logout" class="dropdown-item btn btn-link" style="color: red" />
+                        </form>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
+
 </nav>
 
 <footer th:fragment="footer" class="page-footer dark">
@@ -39,46 +59,3 @@
         <p>© 2018 Copyright Text</p>
     </div>
 </footer>
-<!--<header th:fragment="header">-->
-<!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
-<!--        <a class="navbar-brand" href="#">Navbar</a>-->
-<!--        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-
-<!--        <div class="navbar-collapse collapse" id="navbarColor01" style="">-->
-<!--            <ul class="navbar-nav mr-auto">-->
-<!--                <li class="nav-item active">-->
-<!--                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">Features</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">Pricing</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">About</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--            <form class="form-inline">-->
-<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </nav>-->
-<!--</header>-->
-
-
-<!--<head th:fragment="head">-->
-<!--    <title>Top Gun Flight School</title>-->
-<!--    <link rel="icon" th:href="@{/static/images/favicon.png}"  />-->
-<!--    <meta charset="UTF-8"></meta>-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-<!--    <meta name="description" content="">-->
-<!--    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">-->
-<!--    <link th:href="@{/css/style.css}" rel="stylesheet" />-->
-<!--    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />-->
-<!--    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>-->
-<!--    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>-->
-<!--</head>-->

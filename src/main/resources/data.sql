@@ -7,10 +7,10 @@ insert into Authorities (username, authority)
 
 -- Instructors
 insert into Users (username, password, enabled)
-	values ('Maverick', '$2a$04$3UjPjJQ4/s4SqCuXrek4MekcYB9sdtIhOUnf8/nbWY0pr4TBOP.zW', 1);
+	values ('Maverick', '$2a$10$6giEUpsLMg135xTeu3GCD..OWgNaSjV1cJpWzn4x13rgLhdXY8ebC', 1);
 
 insert into Users (username, password, enabled)
-	values ('Goose', '$2a$04$3UjPjJQ4/s4SqCuXrek4MekcYB9sdtIhOUnf8/nbWY0pr4TBOP.zW', 1);
+	values ('Goose', '$2a$10$6giEUpsLMg135xTeu3GCD..OWgNaSjV1cJpWzn4x13rgLhdXY8ebC', 1);
 
 insert into Authorities (username, authority)
 	values ('Maverick', 'ROLE_INSTRUCTOR');
@@ -20,9 +20,9 @@ insert into Authorities (username, authority)
 
 -- Candidates
 insert into Users (username, password, enabled)
-	values ('Wolfman', '$2a$04$3UjPjJQ4/s4SqCuXrek4MekcYB9sdtIhOUnf8/nbWY0pr4TBOP.zW', 1);
+	values ('Wolfman', '$2a$10$6giEUpsLMg135xTeu3GCD..OWgNaSjV1cJpWzn4x13rgLhdXY8ebC', 1);
 insert into Users (username, password, enabled)
-	values ('Merlin', '$2a$04$3UjPjJQ4/s4SqCuXrek4MekcYB9sdtIhOUnf8/nbWY0pr4TBOP.zW', 1);
+	values ('Merlin', '$2a$10$6giEUpsLMg135xTeu3GCD..OWgNaSjV1cJpWzn4x13rgLhdXY8ebC', 1);
 
 insert into Authorities (username, authority)
 	values ('Wolfman', 'ROLE_USER');
@@ -43,7 +43,7 @@ insert into UserData ( firstName, lastName, username,isInstructor)
 insert into Course (name, userDataId, duration, plane)
     values ('Intro Course', 1, 2, 'F18');
 insert into Course (name, userDataId, duration, plane)
-    values ('Special Top Gun Course', 2, 7, 'F16');
+    values ('Special Course', 2, 7, 'F16');
 insert into Course (name, userDataId, duration, plane)
     values ('Basic Top Gun', 1, 3, 'F14');
 insert into Course (name, userDataId, duration, plane)

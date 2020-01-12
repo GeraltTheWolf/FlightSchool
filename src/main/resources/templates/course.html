@@ -7,69 +7,27 @@
 
     <nav th:replace="fragments :: navigation"></nav>
 
-    <main class="page pricing-table-page">
-        <section class="clean-block clean-pricing dark">
+    <main class="page">
+        <section class="clean-block">
             <div class="container">
                 <div class="block-heading">
                     <h2 class="text-info">Courses</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                    <p>Active courses on Top Gun Academy</p>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-md-5 col-lg-4">
+                    <div class="col-md-5 col-lg-4 mb-5" th:each="course :${courses}" >
                         <div class="clean-pricing-item">
                             <div class="heading">
-                                <h3>BASIC</h3>
-                            </div><img style="width: 290px;height: 210px;" src="assets/img/F14.jpg">
+                                <h3 th:text="${course.getName()}"></h3>
+                            </div><img style="width: 290px;height: 210px;" th:src="@{${'/images/' + course.getPlane() + '.jpg'}}">
                             <div class="features">
-                                <h4><span class="feature">Full Support:&nbsp;</span><span>No</span></h4>
-                                <h4><span class="feature">Duration:&nbsp;</span><span>30 Days</span></h4>
-                                <h4><span class="feature">Storage:&nbsp;</span><span>10GB</span></h4>
+                                <h4><span class="feature">Duration in days:&nbsp;</span><span th:text="${course.getDuration()}"></span></h4>
+                                <h4><span class="feature">Instructor:&nbsp;</span><span th:text="${course.getInstructor().getUsername()}"></span></h4>
+                                <h4><span class="feature">Plane:&nbsp;</span><span th:text="${course.getPlane()}"></span></h4>
                             </div>
-                            <div class="price"></div><button class="btn btn-primary btn-block" type="button">Apply Now</button></div>
-                    </div>
-                    <div class="col-md-5 col-lg-4">
-                        <div class="clean-pricing-item">
-                            <div class="heading">
-                                <h3>PRO</h3>
-                            </div><img style="width: 290px;height: 210px;" src="assets/img/F16.jpg">
-                            <div class="features">
-                                <h4><span class="feature">Full Support:&nbsp;</span><span>Yes</span></h4>
-                                <h4><span class="feature">Duration:&nbsp;</span><span>60 Days</span></h4>
-                                <h4><span class="feature">Storage:&nbsp;</span><span>50GB</span></h4>
-                            </div>
-                            <div class="price"></div><button class="btn btn-primary btn-block" type="button">Apply Now</button></div>
-                    </div>
-                    <div class="col-md-5 col-lg-4">
-                        <div class="clean-pricing-item">
-                            <div class="heading">
-                                <h3>PREMIUM</h3>
-                            </div><img style="width: 290px;height: 210px;" src="assets/img/F18.jpg">
-                            <div class="features">
-                                <h4><span class="feature">Full Support:&nbsp;</span><span>Yes</span></h4>
-                                <h4><span class="feature">Duration:&nbsp;</span><span>120 Days</span></h4>
-                                <h4><span class="feature">Storage:&nbsp;</span><span>150GB</span></h4>
-                            </div>
-                            <div class="price"></div><button class="btn btn-primary btn-block" type="button">Apply Now</button></div>
+                            <div class="price"></div><a class="btn btn-primary btn-block" th:href="@{${'/course/'+course.getId() +'/enroll'}}" role="button">Enroll Course</a></div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="clean-block clean-form dark">
-            <div class="container">
-                <div class="block-heading" style="padding: 30px 0px 0px;">
-                    <h2 class="text-info">Create new course</h2>
-                    <p>Only instructors can create new courses</p>
-                </div>
-                <form>
-                    <div class="form-group"><label>Name</label><input class="form-control" type="text"></div>
-                    <div class="form-group"><label>Duration in days</label><input class="form-control" type="number"></div>
-                    <div class="form-group"><label>Aircraft</label>
-                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Select the aircraft</button>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">F/A-18 Hornet</a><a class="dropdown-item" role="presentation" href="#">F 16</a><a class="dropdown-item" role="presentation" href="#">F 14 Tomcat</a></div>
-                        </div>
-                    </div>
-                    <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Send</button></div>
-                </form>
             </div>
         </section>
     </main>

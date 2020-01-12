@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -30,7 +31,7 @@ public class TopGunRepository {
     }
 
     //region UserData
-    public Iterable<UserData> getUserData() {
+    public List<UserData> getUserData() {
         return jdbc.query("select id, firstName, lastName, username, isInstructor, biography from UserData", this::mapRowToUserData);
     }
 
@@ -55,7 +56,7 @@ public class TopGunRepository {
     //endregion
 
     //region Courses
-    public Iterable<Course> getCourses() {
+    public List<Course> getCourses() {
         return jdbc.query("select id, name, userDataId, duration, plane from Course", this::mapRowToCourse);
     }
 
@@ -63,7 +64,7 @@ public class TopGunRepository {
         return jdbc.queryForObject("select id, name, userDataId, duration, plane from Course  where id = ?", this::mapRowToCourse, id);
     }
 
-    public Iterable<Course> getCoursesByInstructorId(int instructorId) {
+    public List<Course> getCoursesByInstructorId(int instructorId) {
         return jdbc.query("select id, name, userDataId, duration, plane from Course where userDataId = ?", this::mapRowToCourse, instructorId);
     }
 
@@ -95,7 +96,7 @@ public class TopGunRepository {
     //endregion
 
     //region UserCourses
-    public Iterable<UserCourse> getUserCourses() {
+    public List<UserCourse> getUserCourses() {
         return jdbc.query("select id, courseId, userDataId, dateStarted, numberOfAttendances from UserCourse", this::mapRowToUserCourse);
     }
 
@@ -103,14 +104,19 @@ public class TopGunRepository {
         return jdbc.queryForObject("select id, courseId, userDataId, dateStarted, numberOfAttendances from UserCourse where id = ?", this::mapRowToUserCourse, id);
     }
 
-    public UserCourse getUserCoursesByUserDataId(int userDataId) {
-        return jdbc.queryForObject("select id, courseId, userDataId, dateStarted, numberOfAttendances from UserCourse where userDataId = ?", this::mapRowToUserCourse, userDataId);
+    public List<UserCourse> getUserCoursesByUserDataId(int userDataId) {
+        return jdbc.query("select id, courseId, userDataId, dateStarted, numberOfAttendances from UserCourse where userDataId = ?", this::mapRowToUserCourse, userDataId);
     }
 
     public UserCourse saveUserCourse(UserCourse userCourse) {
         userCourse.setId(_saveUserCourse(userCourse));
         return userCourse;
     }
+
+    public void UpdateUserCourse(UserCourse userCourse){
+        jdbc.update("update UserCourse set numberOfAttendances = ? where id = ?",userCourse.getNumberOfAttendances(), userCourse.getId());
+    }
+
 
     private int _saveUserCourse(UserCourse userCourse) {
         Map<String, Object> values = new HashMap<>();
