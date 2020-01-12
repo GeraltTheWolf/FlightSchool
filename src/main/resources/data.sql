@@ -58,6 +58,13 @@ insert into UserCourse (courseId, userDataId, dateStarted, numberOfAttendances)
     values (2, 4, '2019-10-21',1);
 
 
+insert into BLOG_POST (title, post, lastEditedOn, author)
+    values ('Sample blog post', 'This is sample blog post entered manually in database', '2019-11-01','admin');
+insert into BLOG_POST (title, post, lastEditedOn, author)
+    values ('Maverick Sample blog post', 'Maverick was here...', '2019-12-01','Maverick');
+insert into BLOG_POST (title, post, lastEditedOn, author)
+    values ('Goose Sample blog post', 'Goose was here...', '2019-12-01','Goose');
+
 
 
 

@@ -43,3 +43,12 @@ CREATE TABLE IF NOT EXISTS UserCourse (
     CONSTRAINT FK_UserCourses_UserData FOREIGN KEY(userDataId) REFERENCES UserData (id)
 );
 
+CREATE TABLE IF NOT EXISTS BLOG_POST (
+      id int identity NOT NULL,
+      title nvarchar(50) NOT NULL,
+      post nvarchar(max) NOT NULL,
+      lastEditedOn date NOT NULL,
+      author nvarchar(256) NOT NULL,
+      CONSTRAINT PK_BLOG_POSTS PRIMARY KEY(id),
+      CONSTRAINT FK_BLOG_POSTS_Users FOREIGN KEY(author) REFERENCES Users (username)
+);
