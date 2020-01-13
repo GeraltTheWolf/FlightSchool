@@ -1,15 +1,15 @@
 # FlightSchool
 
-This is sample Java Spring Boot application. This project is used for RnD purposes and as a collage project.
+This is sample Java Spring Boot application. This project is used for RnD purposes and as a colleague project.
 
-# Technology used:
+## Technology used:
 
-Java Spring Boot
-Thymeleaf
-JDBC Template
-Hiberante
-JPA
-REST
+ - Java Spring Boot 
+ - Thymeleaf 
+ - JDBC Template 
+ - Hiberante 
+ - JPA 
+ - REST
 
 ## Iterations
 
