@@ -38,9 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/about").permitAll()
-                    .antMatchers("/h2-console/**").permitAll()
+                    .antMatchers("/","/about","/h2-console/**").permitAll()
                     .antMatchers("/login").anonymous()
                     .anyRequest().authenticated()
                 .and()
@@ -52,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/login?logout")
                 .and()
                 // ignore CSRF protection and allow IFRAME for h2 console
-                    .csrf().ignoringAntMatchers("/h2-console/**")
+                    .csrf().ignoringAntMatchers("/h2-console/**","/api/**", "/login", "/logout")
                     .and()
                 .headers().frameOptions().sameOrigin();
     }
