@@ -18,11 +18,10 @@ import java.util.UUID;
 public class BlogPost {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userId;
 
     @NotEmpty(message = "Title is missing")
@@ -35,8 +34,6 @@ public class BlogPost {
 
     private LocalDate lastEditedOn;
 
-    @NotEmpty(message = "Author is missing")
-    @Size(min = 5, max = 50, message = "Author needs to be between 5 and 50 characters long")
     private String author;
 
     private boolean enabled;

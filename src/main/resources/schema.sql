@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS BlogPost (
       userId uuid NOT NULL DEFAULT random_uuid(),
       title nvarchar(50) NOT NULL,
       content nvarchar(max) NOT NULL,
-      lastEditedOn date NOT NULL,
+      lastEditedOn datetime NOT NULL,
       author nvarchar(256) NOT NULL,
       enabled boolean NOT NULL DEFAULT 1,
       CONSTRAINT PK_BLOG_POSTS PRIMARY KEY(id),
