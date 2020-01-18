@@ -11,16 +11,16 @@
         <section class="clean-block clean-form dark">
             <div class="container">
                 <div class="block-heading">
-                    <h2 class="text-info">Log In</h2>
+                    <h2 class="text-info" th:text="#{msg.login.title}"></h2>
                 </div>
                 <form method="POST" th:action="@{/login}">
                     <div class="form-group">
-                        <label for="username">Email</label><input class="form-control item" type="text" name="username" id="username"></div>
+                        <label for="username" th:text="#{msg.login.username}"></label><input class="form-control item" type="text" name="username" id="username"></div>
                     <div class="form-group">
-                        <label for="password">Password</label><input class="form-control" type="password" name="password" id="password">
+                        <label for="password" th:text="#{msg.login.password}"></label><input class="form-control" type="password" name="password" id="password">
                     </div>
-                    <div th:if="${param.error}" class="text-danger">Invalid username or password</div>
-                    <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                    <div th:if="${param.error}" class="text-danger" th:text="#{msg.login.error}"></div>
+                    <button class="btn btn-primary btn-block" type="submit" th:text="#{msg.login.button.login}"></button>
                 </form>
             </div>
         </section>

@@ -24,12 +24,12 @@ public class BlogPost {
 
     private UUID userId;
 
-    @NotEmpty(message = "Title is missing")
-    @Size(min = 5, max = 50, message = "Title needs to be between 5 and 50 characters long")
+    @NotEmpty(message = "{msg.errors.blogPost.title.empty}}")
+    @Size(min = 5, max = 50, message = "{msg.errors.blogPost.title.size}}")
     private String title;
 
-    @NotEmpty(message = "Blog is missing")
-    @Size(min = 20, message = "Content needs to be more than 20 characters long")
+    @NotEmpty(message = "{msg.errors.blogPost.content.empty}}")
+    @Size(min = 20, message = "{msg.errors.blogPost.content.size}}")
     private String content;
 
     private LocalDate lastEditedOn;
