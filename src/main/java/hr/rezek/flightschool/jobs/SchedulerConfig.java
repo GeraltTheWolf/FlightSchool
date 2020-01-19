@@ -16,7 +16,7 @@ public class SchedulerConfig {
     @Bean
     public SimpleTrigger blogDeleteTrigger() {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(5).repeatForever();
+                .withIntervalInSeconds(60).repeatForever();
                 //.withIntervalInHours(5).repeatForever();
 
 

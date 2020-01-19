@@ -1,3 +1,5 @@
+delete from BlogPost;
+
 -- admin
 insert into Users (username, password, enabled)
 	values ('admin', '$2a$10$6giEUpsLMg135xTeu3GCD..OWgNaSjV1cJpWzn4x13rgLhdXY8ebC', 1);
@@ -66,6 +68,7 @@ insert into UserCourse (courseId, userDataId, dateStarted, numberOfAttendances)
     values (4, 3, '2019-12-15',3);
 insert into UserCourse (courseId, userDataId, dateStarted, numberOfAttendances)
     values (2, 4, '2019-10-21',1);
+
 
 
 insert into BlogPost (userId, title, content, lastEditedOn, author, enabled)

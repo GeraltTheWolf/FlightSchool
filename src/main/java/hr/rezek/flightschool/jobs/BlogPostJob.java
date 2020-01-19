@@ -3,7 +3,6 @@ package hr.rezek.flightschool.jobs;
 import hr.rezek.flightschool.model.BlogPost;
 import hr.rezek.flightschool.repository.BlogPostRepository;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -20,7 +19,7 @@ public class BlogPostJob extends QuartzJobBean {
     }
 
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext context) {
 
         List<BlogPost> blogPosts = blogPostRepository.findAllByOrderByLastEditedOnAsc();
 

@@ -6,6 +6,7 @@ import hr.rezek.flightschool.security.SecurityUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,9 +102,14 @@ public class BlogPostController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{userId}")
-    public void delete(@PathVariable UUID userId) {
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity delete(@PathVariable UUID userId) {
+        if(!SecurityUtils.isAdmin())
+            return new ResponseEntity("",HttpStatus.FORBIDDEN);
+
         if (SecurityUtils.isAdmin() ? blogPostRepository.existsByUserId(userId) : blogPostRepository.existsByUserIdAndAuthor(userId, SecurityUtils.getUsername())) {
             blogPostRepository.removeByUserId(userId);
         }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
