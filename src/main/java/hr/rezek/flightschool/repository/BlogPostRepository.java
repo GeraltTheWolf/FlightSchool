@@ -15,6 +15,8 @@ import java.util.UUID;
 @Repository
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 
+    List<BlogPost> findAllByOrderByLastEditedOnAsc();
+
     Optional<BlogPost> findByUserId(UUID userId);
 
     Optional<BlogPost> findByUserIdAndAuthorAndEnabled(UUID userId, String author, boolean enabled);
@@ -33,6 +35,8 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     boolean existsByUserId(UUID userId);
 
     boolean existsByUserIdAndAuthor(UUID userId, String author);
+
+    int removeByLastEditedOnIsLessThan(LocalDate date);
 
     @Modifying
     @Query("update BlogPost set enabled = ?2 where userId = ?1")
