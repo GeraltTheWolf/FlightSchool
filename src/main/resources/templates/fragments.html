@@ -19,11 +19,12 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script th:src="@{/js/script.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
 </div>
 
 <nav th:fragment="navigation" class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
     <div class="container">
-        <a class="navbar-brand logo" href="#">Top Gun Flight School</a>
+        <a class="navbar-brand logo" href="#" th:text="#{msg.fragments.nav.title}"></a>
         <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
             <span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>
         </button>
@@ -41,6 +42,12 @@
                 </li>
                 <li class="nav-item" role="presentation" sec:authorize="!isAuthenticated()">
                     <a class="nav-link" href="/login" th:text="#{msg.fragments.nav.btn.login}"></a>
+                </li>
+                <li class="nav-item dropdown" role="presentation">
+                    <select id="locales">
+                        <option value="hr" th:selected="${#locale.language == 'hr'}" th:text="#{msg.lang.hr}"></option>
+                        <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{msg.lang.en}"></option>
+                    </select>
                 </li>
                 <li class="nav-item dropdown" role="presentation" sec:authorize="isAuthenticated()">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" sec:authentication="name"></a>

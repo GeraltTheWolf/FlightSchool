@@ -15,14 +15,14 @@ import lombok.Setter;
 public class Course {
     private int id;
 
-    @NotEmpty(message = "{msg.errors.name.empty}")
-    @Size(min = 3, max = 25, message = "{msg.errors.name.length}")
+    @NotEmpty(message = "{validation.course.name.empty}")
+    @Size(min = 3, max = 25, message = "{validation.course.name.length}")
     private String name;
     private String plane;
 
-    @NotNull(message = "{msg.errors.duration.null}")
-    @DecimalMin(value="1", message = "{msg.errors.duration.min}")
-    @DecimalMax(value = "50", message = "{msg.errors.duration.max}")
+    @NotNull(message = "{validation.course.duration.null}")
+    @DecimalMin(value="1", message = "{validation.course.duration.min}")
+    @DecimalMax(value = "50", message = "{validation.course.duration.max}")
     private int duration;
     private UserData instructor;
 }

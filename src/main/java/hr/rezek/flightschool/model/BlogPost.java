@@ -24,12 +24,12 @@ public class BlogPost {
 
     private UUID userId;
 
-    @NotEmpty(message = "{msg.errors.blogPost.title.empty}}")
-    @Size(min = 5, max = 50, message = "{msg.errors.blogPost.title.size}}")
+    @NotEmpty(message = "{validation.blogPost.title.empty}}")
+    @Size(min = 5, max = 50, message = "{validation.blogPost.title.size}}")
     private String title;
 
-    @NotEmpty(message = "{msg.errors.blogPost.content.empty}}")
-    @Size(min = 20, message = "{msg.errors.blogPost.content.size}}")
+    @NotEmpty(message = "{validation.blogPost.content.empty}}")
+    @Size(min = 20, message = "{validation.blogPost.content.size}}")
     private String content;
 
     private LocalDate lastEditedOn;
