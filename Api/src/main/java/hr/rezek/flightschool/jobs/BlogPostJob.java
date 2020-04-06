@@ -21,21 +21,21 @@ public class BlogPostJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) {
 
-        List<BlogPost> blogPosts = blogPostRepository.findAllByOrderByLastEditedOnAsc();
-
-        if (blogPosts.size() > 0) {
-            log.info("Total blog posts in database");
-            log.info(String.valueOf(blogPosts.size()));
-            log.info("Deleting last entered blog");
-
-            BlogPost bp = blogPosts.get(0);
-            log.info(bp.getTitle() + " - " + bp.getLastEditedOn());
-
-            blogPostRepository.removeByUserId(bp.getUserId());
-
-            log.info("Blog deleted");
-        } else {
-            log.info("No blog posts in database. Nothing to erase.");
-        }
+//        List<BlogPost> blogPosts = blogPostRepository.findAllByOrderByLastEditedOnAsc();
+//
+//        if (blogPosts.size() > 0) {
+//            log.info("Total blog posts in database");
+//            log.info(String.valueOf(blogPosts.size()));
+//            log.info("Deleting last entered blog");
+//
+//            BlogPost bp = blogPosts.get(0);
+//            log.info(bp.getTitle() + " - " + bp.getLastEditedOn());
+//
+//            blogPostRepository.removeByUserId(bp.getUserId());
+//
+//            log.info("Blog deleted");
+//        } else {
+//            log.info("No blog posts in database. Nothing to erase.");
+//        }
     }
 }
