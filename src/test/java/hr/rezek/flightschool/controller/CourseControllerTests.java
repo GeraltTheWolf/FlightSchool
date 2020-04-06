@@ -52,7 +52,7 @@ public class CourseControllerTests {
                                 .param("duration", "15")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .with(csrf())
-                                .with(user("Maverick").password("blabla").roles("INSTRUCTOR"))
+                                .with(user("Maverick").password("Passw0rd.123").roles("INSTRUCTOR"))
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/course"));

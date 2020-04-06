@@ -1,4 +1,10 @@
 delete from BlogPost;
+delete from UserCourse;
+delete from Course;
+delete from UserData;
+delete from Authorities;
+delete from Users;
+
 
 -- admin
 insert into Users (username, password, enabled)
