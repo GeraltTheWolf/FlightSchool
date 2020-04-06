@@ -46,22 +46,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .exceptionHandling().defaultAuthenticationEntryPointFor(getRestAuthenticationEntryPoint(), new AntPathRequestMatcher("/api/**"))
                 .and()
-                .authorizeRequests()
-                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .antMatchers("/","/about","/h2-console/**").permitAll()
-                    .antMatchers("/login").anonymous()
-                    .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/", true)
-                .and()
-                .logout()
-                    .logoutSuccessUrl("/login?logout")
-                .and()
-                // ignore CSRF protection and allow IFRAME for h2 console
-                    .csrf().ignoringAntMatchers("/h2-console/**","/api/**", "/login", "/logout")
-                    .and()
+//                .authorizeRequests()
+//                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+//                    .antMatchers("/","/about","/h2-console/**").permitAll()
+//                    .antMatchers("/login").anonymous()
+//                    .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                    .loginPage("/login")
+//                    .defaultSuccessUrl("/", true)
+//                .and()
+//                .logout()
+//                    .logoutSuccessUrl("/login?logout")
+//                .and()
+//                // ignore CSRF protection and allow IFRAME for h2 console
+//                    .csrf().ignoringAntMatchers("/h2-console/**","/api/**", "/login", "/logout")
+//                    .and()
                 .headers().frameOptions().sameOrigin();
     }
 }

@@ -2,6 +2,7 @@ package data;
 
 import model.BlogPost;
 import model.BlogPostManager;
+import model.UserManager;
 
 import java.util.List;
 import java.util.UUID;
