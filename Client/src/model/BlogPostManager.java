@@ -6,11 +6,11 @@ import java.util.UUID;
 public interface BlogPostManager {
     List<BlogPost> GetAll();
 
-    BlogPost GetByUid(UUID blogPostUid);
+    BlogPost GetById(long blogPostId);
 
     BlogPost Create(BlogPost blogPost);
 
-    void Update(BlogPost blogPost);
+    boolean Update(BlogPost blogPost);
 
-    void Delete(UUID blogPostUid);
+    boolean Delete(long blogPostId);
 }

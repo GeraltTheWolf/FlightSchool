@@ -15,7 +15,7 @@ public class RestUserManager implements UserManager {
 
         try {
             return Arrays.asList(Objects.requireNonNull(new RestTemplate().getForEntity("http://localhost:8080/api/user", String[].class).getBody()));
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
             //TODO Logging of exception
             return new ArrayList<>();
         }

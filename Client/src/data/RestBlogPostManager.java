@@ -2,34 +2,78 @@ package data;
 
 import model.BlogPost;
 import model.BlogPostManager;
-import model.UserManager;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
+
 
 public class RestBlogPostManager implements BlogPostManager {
+
+    private static String API_BLOG_POST_URL = "http://localhost:8080/api/blog";
+
     @Override
     public List<BlogPost> GetAll() {
-        return null;
+        try {
+            List<BlogPost> posts = new ArrayList<>();
+
+            posts.add(new BlogPost(1,"Bla bla","Bla Bla 2",  LocalDate.now(),"Autor",true){
+            });
+
+            return posts;
+           // return Arrays.asList(Objects.requireNonNull(new RestTemplate().getForEntity(API_BLOG_POST_URL, BlogPost[].class).getBody()));
+        } catch (Exception ex) {
+            LogErrorMessage(ex);
+            return new ArrayList<>();
+        }
     }
 
     @Override
-    public BlogPost GetByUid(UUID blogPostUid) {
-        return null;
+    public BlogPost GetById(long blogPostId) {
+        try {
+            return Objects.requireNonNull(new RestTemplate().getForEntity(API_BLOG_POST_URL + "/" + blogPostId, BlogPost.class).getBody());
+        } catch (Exception ex) {
+            LogErrorMessage(ex);
+            return null;
+        }
     }
 
     @Override
     public BlogPost Create(BlogPost blogPost) {
-        return null;
+        try {
+            return Objects.requireNonNull(new RestTemplate().postForEntity(API_BLOG_POST_URL, blogPost, BlogPost.class).getBody());
+        } catch (Exception ex) {
+            LogErrorMessage(ex);
+            return null;
+        }
     }
 
     @Override
-    public void Update(BlogPost blogPost) {
-
+    public boolean Update(BlogPost blogPost) {
+        try {
+            new RestTemplate().put(API_BLOG_POST_URL + "/" + blogPost.getId(), blogPost);
+            return true;
+        } catch (Exception ex) {
+            LogErrorMessage(ex);
+            return false;
+        }
     }
 
     @Override
-    public void Delete(UUID blogPostUid) {
+    public boolean Delete(long blogPostId) {
+        try {
+            new RestTemplate().delete(API_BLOG_POST_URL + "/" + blogPostId);
+            return true;
+        } catch (Exception ex) {
+            LogErrorMessage(ex);
+            return false;
+        }
+    }
 
+    private void LogErrorMessage(Exception exception){
+        System.out.println(exception.getMessage());
     }
 }

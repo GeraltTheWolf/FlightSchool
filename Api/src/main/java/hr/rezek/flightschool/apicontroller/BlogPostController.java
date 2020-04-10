@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/api/blog", produces = "application/json")
+@RequestMapping(path = "/api/blogpost", produces = "application/json")
 @Secured("ROLE_USER")
 public class BlogPostController {
 

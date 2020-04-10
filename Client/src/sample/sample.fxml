@@ -2,13 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="sample.Controller">
+<GridPane alignment="center" hgap="10" prefHeight="1200.0" prefWidth="1200.0" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
    </rowConstraints>
@@ -18,10 +20,21 @@
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <children>
-      <ComboBox fx:id="cmbAuthors" prefWidth="150.0" GridPane.rowIndex="1">
+      <ComboBox fx:id="cmbAuthors" prefWidth="150.0" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </ComboBox>
+      <TableView fx:id="tblBlogPosts" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+        <columns>
+          <TableColumn fx:id="tblClmTitle" prefWidth="75.0" text="C1" />
+          <TableColumn fx:id="tblClmContent" prefWidth="75.0" text="C2" />
+            <TableColumn fx:id="tblClmLastEditedOn" prefWidth="75.0" text="Column X" />
+            <TableColumn fx:id="tblClmDelete" prefWidth="75.0" text="Column X" />
+        </columns>
+      </TableView>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </GridPane>
