@@ -18,13 +18,14 @@ public class RestBlogPostManager implements BlogPostManager {
     @Override
     public List<BlogPost> GetAll() {
         try {
-            List<BlogPost> posts = new ArrayList<>();
-
-            posts.add(new BlogPost(1,"Bla bla","Bla Bla 2",  LocalDate.now(),"Autor",true){
-            });
-
-            return posts;
-           // return Arrays.asList(Objects.requireNonNull(new RestTemplate().getForEntity(API_BLOG_POST_URL, BlogPost[].class).getBody()));
+//            List<BlogPost> posts = new ArrayList<>();
+//
+//            posts.add(new BlogPost(1,"First One","Bla Blsdsadsadsada 2",  LocalDate.parse("2020-01-01"),"Bero",true));
+//            posts.add(new BlogPost(2,"Second One","s Bla 2",  LocalDate.now(),"Perica",true));
+//            posts.add(new BlogPost(3,"Bla bla","xxxxxxxx",  LocalDate.parse("2019-12-01"),"Janko",true));
+//
+//            return posts;
+           return Arrays.asList(Objects.requireNonNull(new RestTemplate().getForEntity(API_BLOG_POST_URL, BlogPost[].class).getBody()));
         } catch (Exception ex) {
             LogErrorMessage(ex);
             return new ArrayList<>();

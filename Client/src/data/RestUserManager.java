@@ -14,6 +14,11 @@ public class RestUserManager implements UserManager {
     public List<String> GetAll() {
 
         try {
+//            List<String> authors = new ArrayList<>();
+//            authors.add("Bero");
+//            authors.add("Perica");
+//            authors.add("Janko");
+//            return authors;
             return Arrays.asList(Objects.requireNonNull(new RestTemplate().getForEntity("http://localhost:8080/api/user", String[].class).getBody()));
         } catch (Exception ex) {
             //TODO Logging of exception

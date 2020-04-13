@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BlogPost {
-    private long id;
+    private int id;
     private String title;
     private String content;
     private LocalDate lastEditedOn;

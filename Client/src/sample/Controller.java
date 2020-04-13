@@ -6,117 +6,126 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.ActionButtonTableCell;
-import model.BlogPost;
-import model.BlogPostManager;
-import model.UserManager;
+import model.*;
 
-import java.awt.*;
-import java.awt.Button;
-import java.awt.TextArea;
-import java.awt.TextField;
+
 import java.time.LocalDate;
 
 public class Controller {
 
+    // FORM
     @FXML
-    private TextField tfTitle;
+    private Label labelId;
+    @FXML
+    private TextField textTitle;
+    @FXML
+    private TextArea textContent;
+    private ObservableList<String> authorsObservableList;
+    @FXML
+    private ComboBox<String> comboBoxAuthors;
+    @FXML
+    private CheckBox checkBoxEnabled;
+    @FXML
+    private DatePicker datePickerLastEditedOn;
 
+    // TABLE
+    private ObservableList<BlogPost> blogPostsObservableList;
     @FXML
-    private ComboBox<String> cmbAuthors;
+    private TableView tableBlogPosts;
+    @FXML
+    private TableColumn<BlogPost, Integer> columnId;
+    @FXML
+    private TableColumn<BlogPost, Boolean> columnEnabled;
+    @FXML
+    private TableColumn<BlogPost, String> columnTitle;
+    @FXML
+    private TableColumn<BlogPost, String> columnContent;
+    @FXML
+    private TableColumn<BlogPost, String> columnAuthor;
+    @FXML
+    private TableColumn<BlogPost, LocalDate> columnLastEditedOn;
+    @FXML
+    private TableColumn columnDelete;
 
+    // FORM BUTTONS
     @FXML
-    private TextArea taContent;
-
+    private Button btnClearForm;
     @FXML
-    private CheckBox cbEnabled;
-
-    @FXML
-    private DatePicker dpLastEditedOn;
-
-    @FXML
-    private TableView tblBlogPosts;
-
-    @FXML
-    private TableColumn tblClmTitle;
-
-    @FXML
-    private TableColumn tblClmDelete;
-    @FXML
-    private TableColumn<BlogPost, String> tblClmContent;
-
-    @FXML
-    private TableColumn<BlogPost, String> tblClmAuthor;
-
-    @FXML
-    private TableColumn<BlogPost, LocalDate> tblClmLastEditedOn;
-
-    @FXML
-    private TableColumn<BlogPost, String> tblClmEnabled;
-
-    @FXML
-    private Button btnSave;
+    private Button btnSaveChanges;
 
     private BlogPostManager blogPostManager;
     private UserManager userManager;
-
-    private ObservableList<String> authorsObservableList;
-    private ObservableList<BlogPost> blogPostsObservableList;
-
+    private BlogPostObservable observableBlogPost;
 
     @FXML
     public void initialize() {
+        InitializeManagers();
+        InitializeForm();
+        InitializeTable();
+        SetupListeners();
+    }
 
+    private void InitializeManagers() {
         this.blogPostManager = new RestBlogPostManager();
         this.userManager = new RestUserManager();
+    }
 
-        tblClmTitle.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("title"));
-        tblClmContent.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("content"));
-       // tblClmAuthor.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("author"));
-        tblClmDelete.setCellFactory(ActionButtonTableCell.<BlogPost>forTableColumn("Delete", (BlogPost p) -> {
+    private void InitializeTable() {
+
+        columnId.setCellValueFactory(new PropertyValueFactory<BlogPost, Integer>("id"));
+        columnEnabled.setCellValueFactory(new PropertyValueFactory<BlogPost, Boolean>("enabled"));
+        columnTitle.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("title"));
+        columnContent.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("content"));
+        columnAuthor.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("author"));
+
+        columnDelete.setCellFactory(ActionButtonTableCell.<BlogPost>forTableColumn("Delete", (BlogPost p) -> {
             if (blogPostManager.Delete(p.getId())) {
-                tblBlogPosts.getItems().remove(p);
+                tableBlogPosts.getItems().remove(p);
             }
             return p;
         }));
+    }
 
-//        authorsObservableList = FXCollections.observableArrayList(this.userManager.GetAll());
-//        cmbAuthors.setItems(authorsObservableList);
+    private void InitializeForm() {
+        authorsObservableList = FXCollections.observableArrayList(this.userManager.GetAll());
+        comboBoxAuthors.setItems(authorsObservableList);
+        observableBlogPost = new BlogPostObservable();
         blogPostsObservableList = FXCollections.observableArrayList(this.blogPostManager.GetAll());
-        tblBlogPosts.setItems(blogPostsObservableList);
+        tableBlogPosts.setItems(blogPostsObservableList);
+
+        labelId.textProperty().bind(observableBlogPost.idProperty().asString());
+        textTitle.textProperty().bindBidirectional(observableBlogPost.titleProperty());
+        textContent.textProperty().bindBidirectional(observableBlogPost.contentProperty());
+        comboBoxAuthors.valueProperty().bindBidirectional(observableBlogPost.authorProperty());
+        checkBoxEnabled.selectedProperty().bindBidirectional(observableBlogPost.enabledProperty());
+        datePickerLastEditedOn.valueProperty().bindBidirectional(observableBlogPost.lastEditedOnProperty());
+    }
+
+    private void SetupListeners() {
+        tableBlogPosts.getSelectionModel().selectedItemProperty().addListener((observableValue, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                observableBlogPost.UpdateValues((BlogPost) newSelection);
+            }
+        });
     }
 
     @FXML
-    public void DeleteBlogPost(ActiveEvent event) {
-
-    }
-
-
-    @FXML
-    public void SaveBlogPost(ActiveEvent event) {
-        BlogPost blogPost = new BlogPost();
-
-        blogPost.setTitle(tfTitle.getText());
-        blogPost.setContent(taContent.getText());
-        blogPost.setAuthor(cmbAuthors.getValue());
-        blogPost.setEnabled(cbEnabled.isSelected());
-        blogPost.setLastEditedOn(dpLastEditedOn.getValue());
-
-        blogPostsObservableList.add(blogPostManager.Create(blogPost));
-
+    public void Clear() {
+        observableBlogPost.UpdateValues(new BlogPost());
+        tableBlogPosts.getSelectionModel().clearSelection();
     }
 
     @FXML
-    public void UpdateBlogPost(ActiveEvent event) {
-
-        BlogPost blogPost = (BlogPost) tblBlogPosts.getSelectionModel().getSelectedItem();
-        blogPost.setTitle(tfTitle.getText());
-        blogPost.setContent(taContent.getText());
-        blogPost.setAuthor(cmbAuthors.getValue());
-        blogPost.setEnabled(cbEnabled.isSelected());
-        blogPost.setLastEditedOn(dpLastEditedOn.getValue());
-
-        blogPostManager.Update(blogPost);
+    public void Save() {
+        if (observableBlogPost.getId() > 0) {
+            blogPostManager.Update(observableBlogPost.getBlogPost());
+        } else {
+            blogPostManager.Create(observableBlogPost.getBlogPost());
+        }
     }
 }
