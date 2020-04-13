@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .exceptionHandling().defaultAuthenticationEntryPointFor(getRestAuthenticationEntryPoint(), new AntPathRequestMatcher("/api/**"))
-                .and()
+//                .and()
 //                .authorizeRequests()
 //                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 //                    .antMatchers("/","/about","/h2-console/**").permitAll()
@@ -58,10 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .logout()
 //                    .logoutSuccessUrl("/login?logout")
-//                .and()
-//                // ignore CSRF protection and allow IFRAME for h2 console
-//                    .csrf().ignoringAntMatchers("/h2-console/**","/api/**", "/login", "/logout")
-//                    .and()
+                .and()
+                // ignore CSRF protection and allow IFRAME for h2 console
+                    .csrf().ignoringAntMatchers("/h2-console/**","/api/**", "/login", "/logout")
+                    .and()
                 .headers().frameOptions().sameOrigin();
     }
 }

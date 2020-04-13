@@ -127,5 +127,7 @@ public class Controller {
         } else {
             blogPostManager.Create(observableBlogPost.getBlogPost());
         }
+        blogPostsObservableList = FXCollections.observableArrayList(this.blogPostManager.GetAll());
+        tableBlogPosts.refresh();
     }
 }

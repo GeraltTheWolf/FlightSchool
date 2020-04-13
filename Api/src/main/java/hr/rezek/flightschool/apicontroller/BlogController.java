@@ -51,9 +51,11 @@ public class BlogController {
     public ResponseEntity<BlogPost> update(@PathVariable long blogPostId, @Valid @RequestBody BlogPost updatedBlogPost) {
         Optional<BlogPost> blogPost = blogPostRepository.findById(blogPostId);
         blogPost.ifPresent(bp -> {
-            bp.setLastEditedOn(LocalDate.now());
+            bp.setAuthor(updatedBlogPost.getAuthor());
+            bp.setLastEditedOn(updatedBlogPost.getLastEditedOn());
             bp.setTitle(updatedBlogPost.getTitle());
             bp.setContent(updatedBlogPost.getContent());
+            bp.setEnabled(updatedBlogPost.isEnabled());
             blogPostRepository.save(bp);
         });
         return blogPost.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

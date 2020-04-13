@@ -104,7 +104,7 @@ public class BlogPostObservable  {
     }
 
     public BlogPost getBlogPost() {
-        return new BlogPost(getId(),getTitle(),getAuthor(),getLastEditedOn(),getAuthor(),isEnabled());
+        return new BlogPost(getId(),getTitle(),getContent(),getLastEditedOn(),getAuthor(),isEnabled());
     }
 
 }
