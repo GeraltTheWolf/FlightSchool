@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+    <nav th:replace="fragments :: navigation"></nav>
+
+    <main class="page landing-page">
+        <section class="text-center clean-block clean-hero" th:style="'background-image: url(' + @{/images/introphoto.jpg} + ');color: rgba(9,162,255,0);background-position: center;background-size: auto;'">
+            <div class="text">
+                <h1 class="text-center" th:text="#{msg.home.headline}"></h1>
+            </div>
+        </section>
+        <section class="clean-block clean-info dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info" th:text="#{msg.home.general.title}"></h2>
+                    <p th:text="#{msg.home.general.info}"></p>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-6"><img class="img-thumbnail" th:src="@{/images/pilot.jpg}"></div>
+                    <div class="col-md-6">
+                        <h3 th:text="#{msg.home.ace.title}"></h3>
+                        <div class="getting-started-info">
+                            <p th:text="#{msg.home.ace.info}"></p>
+                        </div>
+                        <button class="btn btn-outline-primary btn-lg" type="button" th:text="#{msg.home.ace.button}"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="fragments :: footer"></footer>
+
+    <div th:replace="fragments :: scripts"></div>
+
+</body>
+
+</html>

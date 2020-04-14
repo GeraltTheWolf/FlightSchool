@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Student Spring Boot application">
+    <title th:text="#{msg.fragments.nav.title}"></title>
+    <meta name="author" content="Geralt The Wolf">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" th:href="@{/fonts/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/simple-line-icons.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.min.css}">
+</head>
+
+<div th:fragment="scripts">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script th:src="@{/js/script.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</div>
+
+<nav th:fragment="navigation" class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+    <div class="container">
+        <a class="navbar-brand logo" href="#" th:text="#{msg.fragments.nav.title}"></a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" href="/" th:text="#{msg.fragments.nav.btn.home}"></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/about" th:text="#{msg.fragments.nav.btn.about}"></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/course" th:text="#{msg.fragments.nav.btn.courses}"></a>
+                </li>
+                <li class="nav-item" role="presentation" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/login" th:text="#{msg.fragments.nav.btn.login}"></a>
+                </li>
+                <li class="nav-item dropdown" role="presentation">
+                    <select id="locales">
+                        <option value="hr" th:selected="${#locale.language == 'hr'}" th:text="#{msg.lang.hr}"></option>
+                        <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{msg.lang.en}"></option>
+                    </select>
+                </li>
+                <li class="nav-item dropdown" role="presentation" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" sec:authentication="name"></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" th:href="@{/course/new}" sec:authorize="hasRole('ROLE_INSTRUCTOR')" th:text="#{msg.fragments.nav.btn.login.createCourse}"></a>
+                        <a class="dropdown-item" th:href="@{/course/instructor}" sec:authorize="hasRole('ROLE_INSTRUCTOR')" th:text="#{msg.fragments.nav.btn.login.myCourses}"></a>
+                        <a class="dropdown-item" th:href="@{/course/user}" sec:authorize="hasRole('ROLE_USER')" th:text="#{msg.fragments.nav.btn.login.myCourses}"></a>
+                        <form method="POST" th:action="@{/logout}">
+                            <input type="submit" th:value="#{msg.fragments.nav.btn.login.logout}" class="dropdown-item btn btn-link" style="color: red" />
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+<footer th:fragment="footer" class="page-footer dark">
+    <div class="footer-copyright">
+        <p>© 2020 GeraltTheWolf</p>
+    </div>
+</footer>

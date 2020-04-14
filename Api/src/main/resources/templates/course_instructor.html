@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+    <nav th:replace="fragments :: navigation"></nav>
+
+    <main class="page">
+        <section class="clean-block clean-form dark">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th th:text="#{msg.courseInstructor.table.name}"></th>
+                        <th th:text="#{msg.courseInstructor.table.duration}"></th>
+                        <th th:text="#{msg.courseInstructor.table.plane}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="Course :${Courses}">
+                        <td th:text="${Course.getName()}"></td>
+                        <td th:text="${Course.getDuration()}"></td>
+                        <td th:text="${Course.getPlane()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="fragments :: footer"></footer>
+
+    <div th:replace="fragments :: scripts"></div>
+
+</body>
+
+</html>

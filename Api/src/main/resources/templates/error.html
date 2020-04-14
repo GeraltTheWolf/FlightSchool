@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<main class="page">
+    <section class="clean-block about-us">
+    <div class="container">
+        <div class="block-heading">
+            <h2 class="text-info" th:text="#{msg.error.title}"></h2>
+            <p th:text="#{msg.error.subtitle}"></p>
+            <a href="/" th:text="#{msg.error.back}"></a>
+        </div>
+    </div>
+    </section>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+
+<div th:replace="fragments :: scripts"></div>
+
+</body>
+
+</html>

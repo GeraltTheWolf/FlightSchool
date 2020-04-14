@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<main class="page">
+    <section class="clean-block clean-form dark">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th th:text="#{msg.courseUser.table.name}"></th>
+                    <th th:text="#{msg.courseUser.table.duration}"></th>
+                    <th th:text="#{msg.courseUser.table.enrolled}"></th>
+                    <th th:text="#{msg.courseUser.table.attended}"></th>
+                    <th th:text="#{msg.courseUser.table.attend}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="userCourse :${userCourses}">
+                    <td th:text="${userCourse.getCourse().getName()}"></td>
+                    <td th:text="${userCourse.getCourse().getDuration()}"></td>
+                    <td th:text="${userCourse.getDateStarted()}"></td>
+                    <td th:text="${userCourse.getNumberOfAttendances()}"></td>
+                    <td>
+                        <a class="badge badge-secondary" th:href="@{${'/course/user/'+userCourse.getId()}}">Attend Course</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="fragments :: footer"></footer>
+
+<div th:replace="fragments :: scripts"></div>
+
+</body>
+
+</html>
