@@ -2,6 +2,7 @@ package sample;
 
 import data.RestBlogPostManager;
 import data.RestUserManager;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.*;
 
@@ -79,9 +81,12 @@ public class Controller {
 
         columnId.setCellValueFactory(new PropertyValueFactory<BlogPost, Integer>("id"));
         columnEnabled.setCellValueFactory(new PropertyValueFactory<BlogPost, Boolean>("enabled"));
+        columnEnabled.setCellValueFactory(c -> new SimpleBooleanProperty(c.getValue().isEnabled()));
+        columnEnabled.setCellFactory(tc -> new CheckBoxTableCell<>());
         columnTitle.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("title"));
         columnContent.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("content"));
         columnAuthor.setCellValueFactory(new PropertyValueFactory<BlogPost, String>("author"));
+        columnLastEditedOn.setCellValueFactory(new PropertyValueFactory<BlogPost, LocalDate>("lastEditedOn"));
 
         columnDelete.setCellFactory(ActionButtonTableCell.<BlogPost>forTableColumn("Delete", (BlogPost p) -> {
             if (blogPostManager.Delete(p.getId())) {
@@ -122,12 +127,29 @@ public class Controller {
 
     @FXML
     public void Save() {
-        if (observableBlogPost.getId() > 0) {
-            blogPostManager.Update(observableBlogPost.getBlogPost());
-        } else {
-            blogPostManager.Create(observableBlogPost.getBlogPost());
+        if (this.textTitle.getText() != null && !this.textTitle.getText().trim().isEmpty() && this.textContent.getText() != null && !this.textContent.getText().isEmpty() && this.datePickerLastEditedOn.getValue() != null && this.comboBoxAuthors.getValue() != null) {
+            try {
+                if (observableBlogPost.getId() > 0) {
+                    if (blogPostManager.Update(observableBlogPost.getBlogPost())) {
+                        blogPostsObservableList.setAll(FXCollections.observableArrayList(this.blogPostManager.GetAll()));
+                    }
+                } else {
+                    var blogPost = blogPostManager.Create(observableBlogPost.getBlogPost());
+                    if (blogPost != null){
+                        blogPostsObservableList.add(blogPost);
+                    }
+                    else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("CREATION FAILED");
+                        alert.setHeaderText("Failed to create blog post");
+                        alert.setContentText("Server returned bad request");
+                        alert.showAndWait();
+                    }
+                }
+                tableBlogPosts.refresh();
+            } catch (Exception ex) {
+                // TODO ALERT
+            }
         }
-        blogPostsObservableList = FXCollections.observableArrayList(this.blogPostManager.GetAll());
-        tableBlogPosts.refresh();
     }
 }

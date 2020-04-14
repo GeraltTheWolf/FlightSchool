@@ -37,11 +37,11 @@ public class BlogController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity create(@Valid @RequestBody BlogPost blogPost) {
-
-        blogPost.setLastEditedOn(LocalDate.now());
-        blogPost.setAuthor(SecurityUtils.getUsername());
-        blogPost.setUserId(UUID.randomUUID());
-        blogPost.setEnabled(true);
+    //      blogPost.setId(null);
+//        blogPost.setLastEditedOn(LocalDate.now());
+//        blogPost.setAuthor(SecurityUtils.getUsername());
+       blogPost.setUserId(UUID.randomUUID());
+//        blogPost.setEnabled(true);
 
         return new ResponseEntity(blogPostRepository.save(blogPost), HttpStatus.CREATED);
     }
