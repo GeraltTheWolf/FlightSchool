@@ -5,12 +5,47 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4e0ecdf8-8c06-4c19-9a54-79bbef433162">
+	<http:listener-config name="HTTP_Listener_Blog_config" doc:name="HTTP Listener config" doc:id="4e0ecdf8-8c06-4c19-9a54-79bbef433162" basePath="/api/blog">
 		<http:listener-connection host="localhost" port="8081" />
 	</http:listener-config>
-	<flow name="twitter-flow" doc:id="12d83687-be2e-4135-a1d3-877d0fbd2d81" >
-		<http:listener doc:name="Listener" doc:id="d7f6da77-f074-42d4-af68-517228d7a500" config-ref="HTTP_Listener_config" path="/twitter"/>
-		<file:write doc:name="Write" doc:id="cc282ed9-07a3-44ee-816c-80665ad02923" path="C:\Users\irezek\AnypointStudio\studio-workspace\rezek-second-project-assigment\files\twitter.txt">
+	<http:request-config name="HTTP_Request_Blog_config" doc:name="HTTP Request configuration" doc:id="47f0341d-797f-4f85-9fc6-f6e310370cff" basePath="/api/blog">
+		<http:request-connection host="localhost" port="8080" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_Twitter_config" doc:name="HTTP Listener config" doc:id="4b7c71c5-6628-42da-8a5e-437ff55b2a47" basePath="/twitter" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<flow name="getBlogPosts" doc:id="9653708f-243b-42e9-b04b-73f2c7f9f9d8" >
+		<http:listener doc:name="Listener" doc:id="4ab28dcc-b74e-42dd-83fa-21eb6a681566" config-ref="HTTP_Listener_Blog_config" path="/"/>
+		<http:request method="GET" doc:name="Request" doc:id="d60438a0-397f-46a8-9d66-df262eb15420" config-ref="HTTP_Request_Blog_config" path="/"/>
+		<file:write doc:name="Write" doc:id="74481aec-1a5b-4304-a95c-25d5aa89026b" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\getBlogPostsResult.txt"/>
+	</flow>
+	<flow name="getBlogPost" doc:id="995c77a6-95cc-4b63-b75e-7738233fd107" >
+		<http:listener doc:name="Listener" doc:id="41fb2844-52de-4842-b209-65492aa36d4f" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request" doc:id="ddd18e86-85c1-4f0c-a909-0416592e4fa8" path="/{id}" config-ref="HTTP_Request_Blog_config">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"id" : message.attributes.uriParams.id
+}]]]></http:uri-params>
+		</http:request>
+		<file:write doc:name="Write" doc:id="00ef302c-cfc9-4c33-aea2-4eafe231ca20" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\getBlogPostResult.txt"/>
+	</flow>
+	<flow name="deleteBlogPost" doc:id="576a89f7-e959-4ed9-863d-27f4f5c4d18c" >
+		<http:listener doc:name="Listener" doc:id="924e29c1-1b51-44ba-a8af-5e41dc5959ad" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="DELETE"/>
+		<http:request method="DELETE" doc:name="Request" doc:id="7df67706-5c98-4c2e-a3ff-76d00453a141" config-ref="HTTP_Request_Blog_config" path="/{id}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"id" : message.attributes.uriParams.id
+}]]]></http:uri-params>
+		</http:request>
+		<file:write doc:name="Write" doc:id="4409af9a-9a6f-4119-a4f3-ea1cf8f3dad1" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\deleteBlogPostResult.txt">
+			<file:content ><![CDATA[#[message.attributes.statusCode]]]></file:content>
+		</file:write>
+	</flow>
+	<flow name="getTwitterMessages" doc:id="12d83687-be2e-4135-a1d3-877d0fbd2d81" >
+		<http:listener doc:name="Listener" doc:id="d7f6da77-f074-42d4-af68-517228d7a500" config-ref="HTTP_Listener_Twitter_config" path="/"/>
+		<file:write doc:name="Write" doc:id="cc282ed9-07a3-44ee-816c-80665ad02923" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\twitter.txt">
 			<file:content ><![CDATA[#["i'm writting twitter messages"]]]></file:content>
 		</file:write>
 	</flow>
