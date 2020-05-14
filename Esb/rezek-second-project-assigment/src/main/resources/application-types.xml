@@ -17,4 +17,11 @@ type: string]]></types:shape>
       </types:inputs>
     </types:operation-declaration>
   </types:enrichment>
+  <types:enrichment select="#50c0aa98-01bd-40d7-9e3a-dde3e2b959ea">
+    <types:operation-declaration>
+      <types:inputs>
+        <types:parameter name="content" type="message"/>
+      </types:inputs>
+    </types:operation-declaration>
+  </types:enrichment>
 </types:mule>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<http:listener-config name="HTTP_Listener_Blog_config" doc:name="HTTP Listener config" doc:id="4e0ecdf8-8c06-4c19-9a54-79bbef433162" basePath="/api/blog">
 		<http:listener-connection host="localhost" port="8081" />
 	</http:listener-config>
@@ -32,6 +33,11 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	</flow>
 	<flow name="deleteBlogPost" doc:id="576a89f7-e959-4ed9-863d-27f4f5c4d18c" >
 		<http:listener doc:name="Listener" doc:id="924e29c1-1b51-44ba-a8af-5e41dc5959ad" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="DELETE"/>
+		<file:write doc:name="Write" doc:id="50c0aa98-01bd-40d7-9e3a-dde3e2b959ea" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\deleteBlogPost.txt">
+			<file:content ><![CDATA[#[output application/java
+---
+attributes.requestUri]]]></file:content>
+		</file:write>
 		<http:request method="DELETE" doc:name="Request" doc:id="7df67706-5c98-4c2e-a3ff-76d00453a141" config-ref="HTTP_Request_Blog_config" path="/{id}">
 			<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -39,10 +45,43 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	"id" : message.attributes.uriParams.id
 }]]]></http:uri-params>
 		</http:request>
-		<file:write doc:name="Write" doc:id="4409af9a-9a6f-4119-a4f3-ea1cf8f3dad1" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\deleteBlogPostResult.txt">
-			<file:content ><![CDATA[#[message.attributes.statusCode]]]></file:content>
+		<file:write doc:name="Write" doc:id="4409af9a-9a6f-4119-a4f3-ea1cf8f3dad1" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\deleteBlogPostResult.txt" mode="APPEND">
+			<file:content ><![CDATA[#[%dw 2.0
+output application/json
+---
+attributes.statusCode as String]]]></file:content>
 		</file:write>
+		<ee:transform doc:name="Transform Message" doc:id="439e8800-a04a-4810-96fa-987fb6fe8407" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{statusCode : 
+	message: "Resource deleted"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="741e93c2-db69-4c5a-8bd0-d5c20ab0eeb8" type="HTTP:NOT_FOUND">
+			<ee:transform doc:name="Transform Message" doc:id="c46775ac-df07-4765-914a-13c6a58efd1e">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	attributes :{
+		statusCode:404
+	},
+	message: "Resource not found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			<file:write doc:name="Write" doc:id="b11778e6-2266-44ee-bc28-197081475e8d" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\deleteBlogPost.txt" mode="APPEND"/>
+		</on-error-continue>
+		</error-handler>
 	</flow>
+	<error-handler name="allErrorHandler" doc:id="1cbbeb4d-87bd-4fb9-aa82-5af40fa75ef5" >
+	</error-handler>
 	<flow name="getTwitterMessages" doc:id="12d83687-be2e-4135-a1d3-877d0fbd2d81" >
 		<http:listener doc:name="Listener" doc:id="d7f6da77-f074-42d4-af68-517228d7a500" config-ref="HTTP_Listener_Twitter_config" path="/"/>
 		<file:write doc:name="Write" doc:id="cc282ed9-07a3-44ee-816c-80665ad02923" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\twitter.txt">
