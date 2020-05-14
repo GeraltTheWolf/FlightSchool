@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4e0ecdf8-8c06-4c19-9a54-79bbef433162">
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="twitter-flow" doc:id="12d83687-be2e-4135-a1d3-877d0fbd2d81" >
+		<http:listener doc:name="Listener" doc:id="d7f6da77-f074-42d4-af68-517228d7a500" config-ref="HTTP_Listener_config" path="/twitter"/>
+		<file:write doc:name="Write" doc:id="cc282ed9-07a3-44ee-816c-80665ad02923" path="C:\Users\irezek\AnypointStudio\studio-workspace\rezek-second-project-assigment\files\twitter.txt">
+			<file:content ><![CDATA[#["i'm writting twitter messages"]]]></file:content>
+		</file:write>
+	</flow>
+</mule>
