@@ -33,8 +33,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 	<flow name="deleteBlogPost" doc:id="576a89f7-e959-4ed9-863d-27f4f5c4d18c" >
 		<http:listener doc:name="Listener" doc:id="924e29c1-1b51-44ba-a8af-5e41dc5959ad" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="DELETE">
-			<http:error-response statusCode="404" />
-		</http:listener>	
+			<http:error-response statusCode="#[vars.status default 400]" >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
 		<file:write doc:name="Write" doc:id="50c0aa98-01bd-40d7-9e3a-dde3e2b959ea" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\request.json">
 			<file:content ><![CDATA[#[output application/json
 ---
@@ -64,30 +66,31 @@ attributes]]]></file:content>
 }]]]></file:content>
 		</file:write>
 		<error-handler>
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="6ed06208-e20c-4cbd-a3c5-615373e30dc3" >
-				<ee:transform doc:name="Copy_of_Transform Message" doc:id="0c4997b8-b114-4af7-bf0f-5d31f7b5e86c">
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="eb7a23b8-fc5b-4fb7-9cfd-9923e5ce0a9a" type="HTTP:BAD_REQUEST, EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED">
+			<ee:transform doc:name="Transform Message" doc:id="f688dc5a-c1db-47fc-ac65-650e22164a6c">
+				<ee:message>
+					<ee:set-payload><![CDATA[output application/json
+---
+{	
+"message" : "Something went wrong"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c941084d-7b07-4bc5-b136-2ecf1fd74494" type="HTTP:NOT_FOUND">
+				<ee:transform doc:name="Transform Message" doc:id="0c4997b8-b114-4af7-bf0f-5d31f7b5e86c">
 					<ee:message>
 						<ee:set-payload><![CDATA[output application/json
 ---
-{
+{	
 "message" : "Resource not found on platform"
 }]]></ee:set-payload>
-						<ee:set-attributes><![CDATA[%dw 2.0
-output application/json
----
-{
-	statusCode : 404
-}]]></ee:set-attributes>
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="respStatusCode"><![CDATA[%dw 2.0
-output application/java
----
-{
-}]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<file:write doc:name="Copy_of_Write" doc:id="2859f4a8-b345-4626-b606-729b04f6e4e3" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\response.json" />
+				<file:write doc:name="Write" doc:id="2859f4a8-b345-4626-b606-729b04f6e4e3" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\response.json" />
+				<set-variable value="404" doc:name="Set status 404" doc:id="24268a72-cc74-4300-93c7-d70c6e296b7f" variableName="status"/>
 			</on-error-propagate>
 		</error-handler>
 	</flow>
