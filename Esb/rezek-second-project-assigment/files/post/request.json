@@ -1,31 +1,42 @@
 {
-  "headers": {
-    "user-agent": "PostmanRuntime/7.24.1",
-    "accept": "*/*",
-    "cache-control": "no-cache",
-    "postman-token": "24b90acf-87b6-4547-af20-43b18d0f3c4d",
-    "host": "localhost:8081",
-    "accept-encoding": "gzip, deflate, br",
-    "connection": "keep-alive"
+  "attributes": {
+    "headers": {
+      "content-type": "application/json",
+      "user-agent": "PostmanRuntime/7.24.1",
+      "accept": "*/*",
+      "cache-control": "no-cache",
+      "postman-token": "700639d6-7a41-4283-a999-b00b4c4c7a9a",
+      "host": "localhost:8081",
+      "accept-encoding": "gzip, deflate, br",
+      "connection": "keep-alive",
+      "content-length": "215"
+    },
+    "clientCertificate": null,
+    "method": "PUT",
+    "scheme": "http",
+    "queryParams": {
+      
+    },
+    "requestUri": "/api/blog/7",
+    "queryString": "",
+    "version": "HTTP/1.1",
+    "maskedRequestPath": null,
+    "listenerPath": "/api/blog/{id}",
+    "relativePath": "/7",
+    "localAddress": "/127.0.0.1:8081",
+    "uriParams": {
+      "id": "7"
+    },
+    "rawRequestUri": "/api/blog/7",
+    "rawRequestPath": "/api/blog/7",
+    "remoteAddress": "/127.0.0.1:57649",
+    "requestPath": "/api/blog/7"
   },
-  "clientCertificate": null,
-  "method": "DELETE",
-  "scheme": "http",
-  "queryParams": {
-    
-  },
-  "requestUri": "/api/blog/1dfgdfg",
-  "queryString": "",
-  "version": "HTTP/1.1",
-  "maskedRequestPath": null,
-  "listenerPath": "/api/blog/{id}",
-  "relativePath": "/1dfgdfg",
-  "localAddress": "/127.0.0.1:8081",
-  "uriParams": {
-    "id": "1dfgdfg"
-  },
-  "rawRequestUri": "/api/blog/1dfgdfg",
-  "rawRequestPath": "/api/blog/1dfgdfg",
-  "remoteAddress": "/127.0.0.1:55218",
-  "requestPath": "/api/blog/1dfgdfg"
+  "body": {
+    "title": "Sample blog post",
+    "content": "This is sample blog post entered manually in aaaaaavalva",
+    "lastEditedOn": "2019-11-01",
+    "author": "admin",
+    "enabled": false
+  }
 }

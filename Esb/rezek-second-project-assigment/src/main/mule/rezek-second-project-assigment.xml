@@ -17,23 +17,49 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:listener-config>
 	<flow name="updateBlogPost" doc:id="709fd36a-f843-4c44-bb9b-af94fde9c20a" >
 		<http:listener doc:name="Listener" doc:id="d25dcae4-3ee5-4f9e-9af8-262837a01f98" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="PUT"/>
+		<file:write doc:name="Write request" doc:id="4a6c555c-f0e7-4728-8c6f-c6a81cc10b55" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\post\request.json">
+			<file:content><![CDATA[#[output application/json
+---
+{
+ "attributes": attributes,
+ "body" : payload	
+}]]]></file:content>
+		</file:write>
+		<http:request method="PUT" doc:name="Request" doc:id="ca4094dd-a333-47b8-85cb-e785984a4d92" config-ref="HTTP_Request_Blog_config" path="/{id}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"id" : message.attributes.uriParams.id
+}]]]></http:uri-params>
+		</http:request>
+		<file:write doc:name="Write Response" doc:id="9f508ab7-f225-421a-aa2a-6fd643e6b6ef" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\put\response.json" />
 	</flow>
 	<flow name="createBlogPost" doc:id="69ffca62-eb91-4ab9-84ee-44b5863093b0" >
 		<http:listener doc:name="Listener" doc:id="ef6e881c-8233-4d11-8f21-a739dd00caa4" config-ref="HTTP_Listener_Blog_config" path="/" allowedMethods="POST"/>
+		<file:write doc:name="Write request" doc:id="01c84dbc-4de7-4c02-b111-d58ad3f44c9e" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\post\request.json">
+			<file:content><![CDATA[#[output application/json
+---
+{
+ "attributes": attributes,
+ "body" : payload	
+}]]]></file:content>
+		</file:write>
+		<http:request method="POST" doc:name="Request" doc:id="82e3ed3f-b3e2-459a-ae8f-015086f88562" config-ref="HTTP_Request_Blog_config" path="/"/>
+		<file:write doc:name="Write Response" doc:id="5d5f665e-bc60-42b6-91f3-b37a65d8f511" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\post\response.json" />
 	</flow>
 	<flow name="getBlogPosts" doc:id="9653708f-243b-42e9-b04b-73f2c7f9f9d8" >
 		<http:listener doc:name="Listener" doc:id="4ab28dcc-b74e-42dd-83fa-21eb6a681566" config-ref="HTTP_Listener_Blog_config" path="/"/>
-		<file:write doc:name="Write request" doc:id="01c84dbc-4de7-4c02-b111-d58ad3f44c9e" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\request.json">
+		<file:write doc:name="Write request" doc:id="50c30ac2-7b83-4e1c-81fb-942bac7ee6af" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\request.json">
 			<file:content><![CDATA[#[output application/json
 ---
 attributes]]]></file:content>
 		</file:write>
 		<http:request method="GET" doc:name="Request" doc:id="d60438a0-397f-46a8-9d66-df262eb15420" config-ref="HTTP_Request_Blog_config" path="/"/>
-		<file:write doc:name="Write Response" doc:id="74481aec-1a5b-4304-a95c-25d5aa89026b" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\getBlogPostsResult.txt"/>
+		<file:write doc:name="Write Response" doc:id="74481aec-1a5b-4304-a95c-25d5aa89026b" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\response.json"/>
 	</flow>
 	<flow name="getBlogPost" doc:id="995c77a6-95cc-4b63-b75e-7738233fd107" >
 		<http:listener doc:name="Listener" doc:id="41fb2844-52de-4842-b209-65492aa36d4f" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="GET"/>
-		<file:write doc:name="Write request" doc:id="a196f88a-387f-4261-9afe-96641a5368d1" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\request.json">
+		<file:write doc:name="Write request" doc:id="a196f88a-387f-4261-9afe-96641a5368d1" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\request.json">
 			<file:content><![CDATA[#[output application/json
 ---
 attributes]]]></file:content>
@@ -45,7 +71,7 @@ attributes]]]></file:content>
 	"id" : message.attributes.uriParams.id
 }]]]></http:uri-params>
 		</http:request>
-		<file:write doc:name="Write response" doc:id="00ef302c-cfc9-4c33-aea2-4eafe231ca20" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\getBlogPostResult.txt"/>
+		<file:write doc:name="Write response" doc:id="00ef302c-cfc9-4c33-aea2-4eafe231ca20" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\response.json"/>
 	</flow>
 	<flow name="deleteBlogPost" doc:id="576a89f7-e959-4ed9-863d-27f4f5c4d18c" >
 		<http:listener doc:name="Listener" doc:id="924e29c1-1b51-44ba-a8af-5e41dc5959ad" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="DELETE">
