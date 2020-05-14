@@ -3,7 +3,7 @@
     "user-agent": "PostmanRuntime/7.24.1",
     "accept": "*/*",
     "cache-control": "no-cache",
-    "postman-token": "f9b1d037-f777-4dc1-a3b8-7008dfd575da",
+    "postman-token": "0a0625c2-2a01-4fd5-b262-f9ed645c2d5a",
     "host": "localhost:8081",
     "accept-encoding": "gzip, deflate, br",
     "connection": "keep-alive"
@@ -19,15 +19,13 @@
   "version": "HTTP/1.1",
   "maskedRequestPath": null,
   "listenerPath": "/api/blog/{id}",
-  "localAddress": "/127.0.0.1:8081",
   "relativePath": "/5",
+  "localAddress": "/127.0.0.1:8081",
   "uriParams": {
     "id": "5"
   },
   "rawRequestUri": "/api/blog/5",
   "rawRequestPath": "/api/blog/5",
-  "remoteAddress": "/127.0.0.1:61708",
+  "remoteAddress": "/127.0.0.1:65207",
   "requestPath": "/api/blog/5"
-}{
-  "message": "Resource not found"
 }
