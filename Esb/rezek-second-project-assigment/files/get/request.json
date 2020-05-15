@@ -3,7 +3,7 @@
     "user-agent": "PostmanRuntime/7.24.1",
     "accept": "*/*",
     "cache-control": "no-cache",
-    "postman-token": "e70a774a-5556-4ba1-a040-f62bf98c2a10",
+    "postman-token": "e0cdf766-2e40-4dcf-8f25-e83b7d253662",
     "host": "localhost:8081",
     "accept-encoding": "gzip, deflate, br",
     "connection": "keep-alive"
@@ -26,6 +26,6 @@
   },
   "rawRequestUri": "/api/blog",
   "rawRequestPath": "/api/blog",
-  "remoteAddress": "/127.0.0.1:57649",
+  "remoteAddress": "/127.0.0.1:54439",
   "requestPath": "/api/blog"
 }

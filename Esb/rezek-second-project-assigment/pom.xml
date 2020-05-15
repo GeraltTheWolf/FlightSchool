@@ -25,7 +25,13 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-				</configuration>
+				<sharedLibraries>
+                        <sharedLibrary>
+                            <groupId>org.apache.activemq</groupId>
+                            <artifactId>activemq-client</artifactId>
+                        </sharedLibrary>
+                    </sharedLibraries>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -54,6 +60,17 @@
             <artifactId>mule-xml-module</artifactId>
             <version>1.2.2</version>
             <classifier>mule-plugin</classifier>
+        </dependency>
+    	<dependency>
+            <groupId>org.mule.connectors</groupId>
+            <artifactId>mule-jms-connector</artifactId>
+            <version>1.6.3</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
+    	<dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.15.4</version>
         </dependency>
     </dependencies>
 

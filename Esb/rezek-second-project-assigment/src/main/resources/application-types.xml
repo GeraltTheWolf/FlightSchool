@@ -17,6 +17,18 @@ type: number]]></types:shape>
       <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
 type: string]]></types:shape>
     </types:type>
+    <types:type name="active-mq" format="json">
+      <types:shape format="weave" example="examples/active-mq-sample.json"><![CDATA[%dw 2.0
+
+type active_mq = {|
+  method: String, 
+  action: String, 
+  uri: String, 
+  data: String
+|} {"example": "{\\\"method\\\":\\\"PUT\\\",\\\"action\\\":\\\"request\\\",\\\"uri\\\":\\\"http:\\/\\/localhost\\/api\\/ca\\\",\\\"data\\\":\\\"{}\\\"}"}
+
+]]></types:shape>
+    </types:type>
   </types:catalog>
   <types:enrichment select="#4409af9a-9a6f-4119-a4f3-ea1cf8f3dad1">
     <types:operation-declaration>
@@ -35,4 +47,11 @@ type: string]]></types:shape>
   <types:enrichment select="#c46775ac-df07-4765-914a-13c6a58efd1e"/>
   <types:enrichment select="#924e29c1-1b51-44ba-a8af-5e41dc5959ad"/>
   <types:enrichment select="#0c4997b8-b114-4af7-bf0f-5d31f7b5e86c"/>
+  <types:enrichment select="#aa243e20-9369-4740-9a6c-840fda5c1958">
+    <types:operation-declaration>
+      <types:inputs>
+        <types:parameter name="body" type="active-mq"/>
+      </types:inputs>
+    </types:operation-declaration>
+  </types:enrichment>
 </types:mule>

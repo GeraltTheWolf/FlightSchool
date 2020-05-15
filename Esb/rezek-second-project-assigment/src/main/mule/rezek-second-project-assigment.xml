@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:xml-module="http://www.mulesoft.org/schema/mule/xml-module" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:file="http://www.mulesoft.org/schema/mule/file"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:xml-module="http://www.mulesoft.org/schema/mule/xml-module"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
 	<http:listener-config name="HTTP_Listener_Blog_config" doc:name="HTTP Listener config" doc:id="4e0ecdf8-8c06-4c19-9a54-79bbef433162" basePath="/api/blog">
 		<http:listener-connection host="localhost" port="8081" />
 	</http:listener-config>
@@ -15,8 +16,25 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<http:listener-config name="HTTP_Listener_Twitter_config" doc:name="HTTP Listener config" doc:id="4b7c71c5-6628-42da-8a5e-437ff55b2a47" basePath="/twitter" >
 		<http:listener-connection host="localhost" port="8082" />
 	</http:listener-config>
+	<jms:config name="Active_MQ_config" doc:name="JMS Config" doc:id="f4ee3ce6-9c8a-42b7-972f-6d29cd76c593" >
+		<jms:active-mq-connection specification="JMS_1_0_2b">
+			<jms:factory-configuration brokerUrl="tcp://localhost:61616" />
+		</jms:active-mq-connection>
+	</jms:config>
 	<flow name="updateBlogPost" doc:id="709fd36a-f843-4c44-bb9b-af94fde9c20a" >
 		<http:listener doc:name="Listener" doc:id="d25dcae4-3ee5-4f9e-9af8-262837a01f98" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="PUT"/>
+		<jms:publish doc:name="Publish" doc:id="27bbcbfb-d0f0-4e54-a907-20e0826184d7" config-ref="Active_MQ_config" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: attributes.method,
+	action: "request",
+	uri: attributes.requestUri,	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 		<file:write doc:name="Write request" doc:id="4a6c555c-f0e7-4728-8c6f-c6a81cc10b55" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\post\request.json">
 			<file:content><![CDATA[#[output application/json
 ---
@@ -33,9 +51,33 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 }]]]></http:uri-params>
 		</http:request>
 		<file:write doc:name="Write Response" doc:id="9f508ab7-f225-421a-aa2a-6fd643e6b6ef" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\put\response.json" />
+		<jms:publish doc:name="Publish" doc:id="c9939d95-6936-4f73-8351-cf261a7e7bdc" config-ref="Active_MQ_config" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: "PUT",
+	action: "response",
+	uri: "api/blog/{id}",	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 	</flow>
 	<flow name="createBlogPost" doc:id="69ffca62-eb91-4ab9-84ee-44b5863093b0" >
 		<http:listener doc:name="Listener" doc:id="ef6e881c-8233-4d11-8f21-a739dd00caa4" config-ref="HTTP_Listener_Blog_config" path="/" allowedMethods="POST"/>
+		<jms:publish doc:name="Publish" doc:id="aaf1b00b-a1fc-4dcd-a62c-e914c0330d4f" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: attributes.method,
+	action: "request",
+	uri: attributes.requestUri,	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 		<file:write doc:name="Write request" doc:id="01c84dbc-4de7-4c02-b111-d58ad3f44c9e" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\post\request.json">
 			<file:content><![CDATA[#[output application/json
 ---
@@ -46,9 +88,33 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</file:write>
 		<http:request method="POST" doc:name="Request" doc:id="82e3ed3f-b3e2-459a-ae8f-015086f88562" config-ref="HTTP_Request_Blog_config" path="/"/>
 		<file:write doc:name="Write Response" doc:id="5d5f665e-bc60-42b6-91f3-b37a65d8f511" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\post\response.json" />
+		<jms:publish doc:name="Publish" doc:id="3502d58a-7f55-4066-8b4c-177d4ab14597" destination="BlogPosts" config-ref="Active_MQ_config">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: "POST",
+	action: "response",
+	uri: "api/blog",	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 	</flow>
 	<flow name="getBlogPosts" doc:id="9653708f-243b-42e9-b04b-73f2c7f9f9d8" >
 		<http:listener doc:name="Listener" doc:id="4ab28dcc-b74e-42dd-83fa-21eb6a681566" config-ref="HTTP_Listener_Blog_config" path="/"/>
+		<jms:publish doc:name="Publish" doc:id="aa243e20-9369-4740-9a6c-840fda5c1958" destination="BlogPosts" config-ref="Active_MQ_config">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: attributes.method,
+	action: "request",
+	uri: attributes.requestUri,	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 		<file:write doc:name="Write request" doc:id="50c30ac2-7b83-4e1c-81fb-942bac7ee6af" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\request.json">
 			<file:content><![CDATA[#[output application/json
 ---
@@ -56,9 +122,33 @@ attributes]]]></file:content>
 		</file:write>
 		<http:request method="GET" doc:name="Request" doc:id="d60438a0-397f-46a8-9d66-df262eb15420" config-ref="HTTP_Request_Blog_config" path="/"/>
 		<file:write doc:name="Write Response" doc:id="74481aec-1a5b-4304-a95c-25d5aa89026b" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\response.json"/>
+		<jms:publish doc:name="Publish" doc:id="7d4ac9ce-f0c3-4385-b39c-d74eccf933d4" config-ref="Active_MQ_config" destination="BlogPosts">
+			<jms:message>
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: "GET",
+	action: "response",
+	uri: "api/blog",	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 	</flow>
 	<flow name="getBlogPost" doc:id="995c77a6-95cc-4b63-b75e-7738233fd107" >
 		<http:listener doc:name="Listener" doc:id="41fb2844-52de-4842-b209-65492aa36d4f" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="GET"/>
+		<jms:publish doc:name="Publish" doc:id="f325b02e-50f8-40b4-b6f5-e67b05ba99f6" config-ref="Active_MQ_config" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: attributes.method,
+	action: "request",
+	uri: attributes.requestUri,	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 		<file:write doc:name="Write request" doc:id="a196f88a-387f-4261-9afe-96641a5368d1" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\request.json">
 			<file:content><![CDATA[#[output application/json
 ---
@@ -72,6 +162,18 @@ attributes]]]></file:content>
 }]]]></http:uri-params>
 		</http:request>
 		<file:write doc:name="Write response" doc:id="00ef302c-cfc9-4c33-aea2-4eafe231ca20" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\get\response.json"/>
+		<jms:publish doc:name="Publish" doc:id="eac7d853-f145-44e8-a0fb-947ac122e3c4" config-ref="Active_MQ_config" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: "GET",
+	action: "response",
+	uri: "api/blog/{id}",	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 	</flow>
 	<flow name="deleteBlogPost" doc:id="576a89f7-e959-4ed9-863d-27f4f5c4d18c" >
 		<http:listener doc:name="Listener" doc:id="924e29c1-1b51-44ba-a8af-5e41dc5959ad" config-ref="HTTP_Listener_Blog_config" path="/{id}" allowedMethods="DELETE">
@@ -79,6 +181,18 @@ attributes]]]></file:content>
 				<http:body ><![CDATA[#[payload]]]></http:body>
 			</http:error-response>
 		</http:listener>
+		<jms:publish doc:name="Publish" doc:id="c93e2d03-36e8-42af-807d-5db15b5b708d" config-ref="Active_MQ_config" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: attributes.method,
+	action: "request",
+	uri: attributes.requestUri,	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 		<file:write doc:name="Write request" doc:id="50c0aa98-01bd-40d7-9e3a-dde3e2b959ea" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\request.json">
 			<file:content ><![CDATA[#[output application/json
 ---
@@ -107,6 +221,18 @@ attributes]]]></file:content>
 "message" : "Resource deleted"
 }]]]></file:content>
 		</file:write>
+		<jms:publish doc:name="Publish" doc:id="de3cae5e-2541-4058-85a5-c3fb907fd43f" destination="BlogPosts">
+			<jms:message >
+				<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: "DELETE",
+	action: "response",
+	uri: "api/blog/{id}",	
+	data: payload
+}]]]></jms:body>
+			</jms:message>
+		</jms:publish>
 		<error-handler>
 			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="eb7a23b8-fc5b-4fb7-9cfd-9923e5ce0a9a" type="HTTP:BAD_REQUEST, EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED">
 			<ee:transform doc:name="Transform Message" doc:id="f688dc5a-c1db-47fc-ac65-650e22164a6c">
@@ -132,6 +258,18 @@ attributes]]]></file:content>
 					</ee:variables>
 				</ee:transform>
 				<file:write doc:name="Write" doc:id="2859f4a8-b345-4626-b606-729b04f6e4e3" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\delete\response.json" />
+				<jms:publish doc:name="Publish" doc:id="86c78439-8947-4bfa-8039-e5e1ed3f1ed0" config-ref="Active_MQ_config" destination="BlogPosts">
+					<jms:message >
+						<jms:body ><![CDATA[#[output application/json
+---
+{
+	method: "DELETE",
+	action: "response",
+	uri: "api/blog/{id}",	
+	data: payload
+}]]]></jms:body>
+					</jms:message>
+				</jms:publish>
 				<set-variable value="404" doc:name="Set status 404" doc:id="24268a72-cc74-4300-93c7-d70c6e296b7f" variableName="status"/>
 			</on-error-propagate>
 		</error-handler>
@@ -139,7 +277,6 @@ attributes]]]></file:content>
 	<flow name="getTwitterMessages" doc:id="12d83687-be2e-4135-a1d3-877d0fbd2d81" >
 		<http:listener doc:name="Listener" doc:id="d7f6da77-f074-42d4-af68-517228d7a500" config-ref="HTTP_Listener_Twitter_config" path="/"/>
 		<file:write doc:name="Write" doc:id="cc282ed9-07a3-44ee-816c-80665ad02923" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\twitter.txt">
-			<file:content ><![CDATA[#["i'm writting twitter messages"]]]></file:content>
 		</file:write>
 	</flow>
 </mule>
