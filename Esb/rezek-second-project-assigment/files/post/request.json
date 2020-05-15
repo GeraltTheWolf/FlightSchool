@@ -5,36 +5,36 @@
       "user-agent": "PostmanRuntime/7.24.1",
       "accept": "*/*",
       "cache-control": "no-cache",
-      "postman-token": "700639d6-7a41-4283-a999-b00b4c4c7a9a",
+      "postman-token": "f3c2b674-a205-4ee7-b902-c87a0d824431",
       "host": "localhost:8081",
       "accept-encoding": "gzip, deflate, br",
       "connection": "keep-alive",
-      "content-length": "215"
+      "content-length": "235"
     },
     "clientCertificate": null,
-    "method": "PUT",
+    "method": "POST",
     "scheme": "http",
     "queryParams": {
       
     },
-    "requestUri": "/api/blog/7",
+    "requestUri": "/api/blog",
     "queryString": "",
     "version": "HTTP/1.1",
     "maskedRequestPath": null,
-    "listenerPath": "/api/blog/{id}",
-    "relativePath": "/7",
+    "listenerPath": "/api/blog/",
+    "relativePath": "",
     "localAddress": "/127.0.0.1:8081",
     "uriParams": {
-      "id": "7"
+      
     },
-    "rawRequestUri": "/api/blog/7",
-    "rawRequestPath": "/api/blog/7",
-    "remoteAddress": "/127.0.0.1:57649",
-    "requestPath": "/api/blog/7"
+    "rawRequestUri": "/api/blog",
+    "rawRequestPath": "/api/blog",
+    "remoteAddress": "/127.0.0.1:55742",
+    "requestPath": "/api/blog"
   },
   "body": {
     "title": "Sample blog post",
-    "content": "This is sample blog post entered manually in aaaaaavalva",
+    "content": "This is sample blog post entered manually in database bal blalbalasbvlavalva",
     "lastEditedOn": "2019-11-01",
     "author": "admin",
     "enabled": false

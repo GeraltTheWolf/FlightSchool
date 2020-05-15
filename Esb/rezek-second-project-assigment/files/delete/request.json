@@ -3,7 +3,7 @@
     "user-agent": "PostmanRuntime/7.24.1",
     "accept": "*/*",
     "cache-control": "no-cache",
-    "postman-token": "24b90acf-87b6-4547-af20-43b18d0f3c4d",
+    "postman-token": "56dc62dc-044e-4850-a796-b735c40c8e08",
     "host": "localhost:8081",
     "accept-encoding": "gzip, deflate, br",
     "connection": "keep-alive"
@@ -14,18 +14,18 @@
   "queryParams": {
     
   },
-  "requestUri": "/api/blog/1dfgdfg",
+  "requestUri": "/api/blog/1",
   "queryString": "",
   "version": "HTTP/1.1",
   "maskedRequestPath": null,
   "listenerPath": "/api/blog/{id}",
-  "relativePath": "/1dfgdfg",
+  "relativePath": "/1",
   "localAddress": "/127.0.0.1:8081",
   "uriParams": {
-    "id": "1dfgdfg"
+    "id": "1"
   },
-  "rawRequestUri": "/api/blog/1dfgdfg",
-  "rawRequestPath": "/api/blog/1dfgdfg",
-  "remoteAddress": "/127.0.0.1:55218",
-  "requestPath": "/api/blog/1dfgdfg"
+  "rawRequestUri": "/api/blog/1",
+  "rawRequestPath": "/api/blog/1",
+  "remoteAddress": "/127.0.0.1:55512",
+  "requestPath": "/api/blog/1"
 }
