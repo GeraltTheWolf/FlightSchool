@@ -5,11 +5,12 @@
       "user-agent": "PostmanRuntime/7.24.1",
       "accept": "*/*",
       "cache-control": "no-cache",
-      "postman-token": "f3c2b674-a205-4ee7-b902-c87a0d824431",
+      "postman-token": "c62bdf65-aebb-4d3b-bb91-f9102e248097",
       "host": "localhost:8081",
       "accept-encoding": "gzip, deflate, br",
       "connection": "keep-alive",
-      "content-length": "235"
+      "content-length": "235",
+      "cookie": "JSESSIONID=A1C5269F15F0C612B69AD67B1E2632EE"
     },
     "clientCertificate": null,
     "method": "POST",
@@ -29,7 +30,7 @@
     },
     "rawRequestUri": "/api/blog",
     "rawRequestPath": "/api/blog",
-    "remoteAddress": "/127.0.0.1:55742",
+    "remoteAddress": "/127.0.0.1:63857",
     "requestPath": "/api/blog"
   },
   "body": {

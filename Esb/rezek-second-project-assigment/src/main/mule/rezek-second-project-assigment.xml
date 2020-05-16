@@ -274,9 +274,12 @@ attributes]]]></file:content>
 			</on-error-propagate>
 		</error-handler>
 	</flow>
-	<flow name="getTwitterMessages" doc:id="12d83687-be2e-4135-a1d3-877d0fbd2d81" >
-		<http:listener doc:name="Listener" doc:id="d7f6da77-f074-42d4-af68-517228d7a500" config-ref="HTTP_Listener_Twitter_config" path="/"/>
-		<file:write doc:name="Write" doc:id="cc282ed9-07a3-44ee-816c-80665ad02923" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\twitter.txt">
-		</file:write>
+	<flow name="rezek-second-project-assigmentFlow" doc:id="00c6bce4-d292-4462-b74f-d6bfc575c555" >
+		<jms:listener doc:name="Listener" doc:id="f4cac05d-aa95-4ae5-9c72-093ba0ea3d58" destination="BlogPosts" ackMode="AUTO" config-ref="Active_MQ_config">
+			<jms:consumer-type >
+				<jms:queue-consumer />
+			</jms:consumer-type>
+		</jms:listener>
+		<file:write doc:name="Write" doc:id="e48f0eaf-f69a-4086-9471-517cc5e39331" path="C:\Developmnet\FlightSchool\Esb\rezek-second-project-assigment\files\twitter.txt"/>
 	</flow>
 </mule>

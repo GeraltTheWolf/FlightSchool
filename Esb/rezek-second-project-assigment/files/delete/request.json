@@ -3,10 +3,11 @@
     "user-agent": "PostmanRuntime/7.24.1",
     "accept": "*/*",
     "cache-control": "no-cache",
-    "postman-token": "56dc62dc-044e-4850-a796-b735c40c8e08",
+    "postman-token": "4c3b19b8-f92c-47f3-bd82-30c78f6ff43b",
     "host": "localhost:8081",
     "accept-encoding": "gzip, deflate, br",
-    "connection": "keep-alive"
+    "connection": "keep-alive",
+    "cookie": "JSESSIONID=A1C5269F15F0C612B69AD67B1E2632EE"
   },
   "clientCertificate": null,
   "method": "DELETE",
@@ -14,18 +15,18 @@
   "queryParams": {
     
   },
-  "requestUri": "/api/blog/1",
+  "requestUri": "/api/blog/dsfds",
   "queryString": "",
   "version": "HTTP/1.1",
   "maskedRequestPath": null,
   "listenerPath": "/api/blog/{id}",
-  "relativePath": "/1",
+  "relativePath": "/dsfds",
   "localAddress": "/127.0.0.1:8081",
   "uriParams": {
-    "id": "1"
+    "id": "dsfds"
   },
-  "rawRequestUri": "/api/blog/1",
-  "rawRequestPath": "/api/blog/1",
-  "remoteAddress": "/127.0.0.1:55512",
-  "requestPath": "/api/blog/1"
+  "rawRequestUri": "/api/blog/dsfds",
+  "rawRequestPath": "/api/blog/dsfds",
+  "remoteAddress": "/127.0.0.1:63529",
+  "requestPath": "/api/blog/dsfds"
 }

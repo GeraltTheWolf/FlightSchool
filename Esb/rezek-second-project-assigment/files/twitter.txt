@@ -1,1 +1,14 @@
-Sample message
+{
+  "method": "POST",
+  "action": "response",
+  "uri": "api/blog",
+  "data": {
+    "id": 12,
+    "userId": "3b3bdafe-5267-4b98-9065-e5521c2367f8",
+    "title": "Sample blog post",
+    "content": "This is sample blog post entered manually in database bal blalbalasbvlavalva",
+    "lastEditedOn": "2019-11-01",
+    "author": "admin",
+    "enabled": false
+  }
+}
